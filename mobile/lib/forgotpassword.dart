@@ -8,7 +8,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile/signin.dart';
 
 import 'package:mobile/user.dart';
-import 'app_bar_normal.dart';
 import 'forgotpassword.dart';
 
 class Forgotpassword extends StatefulWidget {
@@ -31,13 +30,18 @@ class _ForgotpasswordState extends State<Forgotpassword> {
   }
 
   User user = User("", "", "", "","", "", "", "");
-  Color textfieldcolor = Color(0xFF666666);
+  Color textfieldcolor = Colors.black;
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar:  buildAppbarNormal(
+      appBar:  AppBar(
+      elevation: 0,
+      centerTitle: true,
+      title: Text("Forgot Password",
       ),
+      
+    ),
       body: SingleChildScrollView(
         child: Container(
           
@@ -74,7 +78,7 @@ class _ForgotpasswordState extends State<Forgotpassword> {
                                   child: Image.asset("images/forgotpassword.png")),
                             ),
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(16, 30, 16, 0),
+                              padding: const EdgeInsets.fromLTRB(16, 30, 16, 20),
                       
                                     child: Text(
                                       "We will send you a One Time Password to your email.",
@@ -117,29 +121,30 @@ class _ForgotpasswordState extends State<Forgotpassword> {
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18,
                                       color: textfieldcolor),
-                                  fillColor: Colors.black,
+                                  fillColor: Colors.amber.shade50,
+                                  filled: true,
                                   focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.amber,
                                     ),
                                   ),
                                   errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.deepOrange,
                                     ),
                                   ),
                                   focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.deepOrange,
                                     ),
                                   ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
-                                      color: Colors.amber,
+                                      color: Colors.transparent,
                                       width: 2.0,
                                     ),
                                   ),
@@ -149,13 +154,13 @@ class _ForgotpasswordState extends State<Forgotpassword> {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(16, 20, 16, 20),
                               child: Container(
-                                height: 50,
+                                height: 60,
                                 width: 400,
                                 child: FlatButton(
                                     color: Colors.amber,
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(16.0)),
+                                            BorderRadius.circular(30.0)),
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
                                         save();

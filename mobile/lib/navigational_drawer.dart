@@ -11,7 +11,7 @@ class NavigationalDrawer extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Drawer(
       child: Material(
-        color: Colors.white,
+        color: Colors.yellow.shade50,
         child: ListView(
           padding: paddings,
           children: [
@@ -107,7 +107,7 @@ class NavigationalDrawer extends StatelessWidget {
     required IconData icon,
     VoidCallback? onClicked,
   }) {
-    final color = Colors.black;
+    final color = Colors.amber.shade900;
     final hoverColor = Colors.amber;
     return ListTile(
       leading: Icon(icon, color: color),

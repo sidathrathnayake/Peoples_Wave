@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'app_bar_normal.dart';
 import 'user.dart';
 
 class VerifyLogin extends StatefulWidget {
@@ -11,7 +10,7 @@ class VerifyLogin extends StatefulWidget {
   _VerifyLoginState createState() => _VerifyLoginState();
 }
   User user = User("", "", "", "","", "", "", "");
-  Color textfieldcolor = Color(0xFF666666); 
+  Color textfieldcolor = Colors.black; 
 
 class _VerifyLoginState extends State<VerifyLogin> {
   final _formKey = GlobalKey<FormState>();
@@ -19,8 +18,13 @@ class _VerifyLoginState extends State<VerifyLogin> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar:  buildAppbarNormal(
+      appBar:  AppBar(
+      elevation: 0,
+      centerTitle: true,
+      title: Text("Verification",
       ),
+      
+    ),
       body: SingleChildScrollView(
         child: Container(
           
@@ -57,7 +61,7 @@ class _VerifyLoginState extends State<VerifyLogin> {
                                   child: Image.asset("images/verifyphone.png")),
                             ),
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(16, 30, 16, 0),
+                              padding: const EdgeInsets.fromLTRB(16, 30, 16, 20),
                       
                                     child: Text(
                                       "You will get a OTP via SMS.",
@@ -95,29 +99,30 @@ class _VerifyLoginState extends State<VerifyLogin> {
 
                                 decoration: InputDecoration(
                                   
-                                  fillColor: Colors.black,
+                                  fillColor: Colors.amber.shade50,
+                                  filled: true,
                                   focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.amber,
                                     ),
                                   ),
                                   errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.deepOrange,
                                     ),
                                   ),
                                   focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.deepOrange,
                                     ),
                                   ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
-                                      color: Colors.amber,
+                                      color: Colors.transparent,
                                       width: 2.0,
                                     ),
                                   ),
@@ -127,13 +132,13 @@ class _VerifyLoginState extends State<VerifyLogin> {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(16, 20, 16, 20),
                               child: Container(
-                                height: 50,
+                                height: 60,
                                 width: 400,
                                 child: FlatButton(
                                     color: Colors.amber,
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(16.0)),
+                                            BorderRadius.circular(30.0)),
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
                                         print("yes");
@@ -151,7 +156,7 @@ class _VerifyLoginState extends State<VerifyLogin> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 230),
+                              padding: const EdgeInsets.only(left: 270),
                               child: Row(
                                 children: [
                                   InkWell(

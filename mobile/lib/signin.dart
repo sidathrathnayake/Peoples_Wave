@@ -6,7 +6,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile/app_bar_normal.dart';
 import 'package:mobile/dashboard.dart';
 import 'package:mobile/signup.dart';
 
@@ -36,14 +35,19 @@ class _SigninState extends State<Signin> {
         context, new MaterialPageRoute(builder: (context) => Dashboard()));
   }
 
-  Color textfieldcolor = Color(0xFF666666);
+  Color textfieldcolor = Colors.black;
   User user = User("", "", "", "","", "", "", "");
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar:  buildAppbarNormal(
+      appBar:  AppBar(
+      elevation: 0,
+      centerTitle: true,
+      title: Text("Sign In",
       ),
+      
+    ),
       body: SingleChildScrollView(
         child: Container(
           
@@ -109,29 +113,30 @@ class _SigninState extends State<Signin> {
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18,
                                       color: textfieldcolor),
-                                  fillColor: Colors.black,
+                                  fillColor: Colors.amber.shade50,
+                                  filled: true,
                                   focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.amber,
                                     ),
                                   ),
                                   errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.deepOrange,
                                     ),
                                   ),
                                   focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.deepOrange,
                                     ),
                                   ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
-                                      color: Colors.amber,
+                                      color: Colors.transparent,
                                       width: 2.0,
                                     ),
                                   ),
@@ -160,29 +165,30 @@ class _SigninState extends State<Signin> {
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18,
                                       color: textfieldcolor),
-                                  fillColor: Colors.black,
+                                  fillColor: Colors.amber.shade50,
+                                  filled: true,
                                   focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.amber,
                                     ),
                                   ),
                                   errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.deepOrange,
                                     ),
                                   ),
                                   focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.deepOrange,
                                     ),
                                   ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
-                                      color: Colors.amber,
+                                      color: Colors.transparent,
                                       width: 2.0,
                                     ),
                                   ),
@@ -230,13 +236,13 @@ class _SigninState extends State<Signin> {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(16, 20, 16, 20),
                               child: Container(
-                                height: 50,
+                                height: 60,
                                 width: 400,
                                 child: FlatButton(
                                     color: Colors.amber,
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(16.0)),
+                                            BorderRadius.circular(30.0)),
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
                                         save();

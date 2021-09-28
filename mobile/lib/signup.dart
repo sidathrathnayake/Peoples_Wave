@@ -9,7 +9,6 @@ import 'package:mobile/dashboard.dart';
 import 'package:mobile/signin.dart';
 
 import 'package:mobile/user.dart';
-import 'app_bar_normal.dart';
 import 'forgotpassword.dart';
 
 class Signup extends StatefulWidget {
@@ -41,14 +40,20 @@ class _SignupState extends State<Signup> {
   List<String> IdType = ['National ID Number', 'Passport'];
   String? selectIdType;
 
-  Color textfieldcolor = Color(0xFF666666);
+  Color textfieldcolor = Colors.black;
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: buildAppbarNormal(),
+      appBar: AppBar(
+      elevation: 0,
+      centerTitle: true,
+      title: Text("Sign Up",
+      ),
+      
+    ),
       body: SingleChildScrollView(
         child: Container(
           color: Colors.amber,
@@ -111,28 +116,30 @@ class _SignupState extends State<Signup> {
                                   prefixIcon:
                                       Image.asset('icons/accounttype.png'),
                                   hintTextDirection: null,
+                                  fillColor: Colors.amber.shade50,
+                                  filled: true,
                                   focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.amber,
                                     ),
                                   ),
                                   errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.deepOrange,
                                     ),
                                   ),
                                   focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.deepOrange,
                                     ),
                                   ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
-                                      color: Colors.amber,
+                                      color: Colors.transparent,
                                       width: 2.0,
                                     ),
                                   ),
@@ -194,29 +201,30 @@ class _SignupState extends State<Signup> {
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18,
                                       color: textfieldcolor),
-                                  fillColor: Colors.black,
+                                  fillColor: Colors.amber.shade50,
+                                  filled: true,
                                   focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.amber,
                                     ),
                                   ),
                                   errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.deepOrange,
                                     ),
                                   ),
                                   focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.deepOrange,
                                     ),
                                   ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
-                                      color: Colors.amber,
+                                      color: Colors.transparent,
                                       width: 2.0,
                                     ),
                                   ),
@@ -229,28 +237,30 @@ class _SignupState extends State<Signup> {
                                 decoration: InputDecoration(
                                   prefixIcon: Image.asset('icons/idtype.png'),
                                   hintTextDirection: null,
+                                  fillColor: Colors.amber.shade50,
+                                  filled: true,
                                   focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.amber,
                                     ),
                                   ),
                                   errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.deepOrange,
                                     ),
                                   ),
                                   focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.deepOrange,
                                     ),
                                   ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
-                                      color: Colors.amber,
+                                      color: Colors.transparent,
                                       width: 2.0,
                                     ),
                                   ),
@@ -311,29 +321,30 @@ class _SignupState extends State<Signup> {
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18,
                                       color: textfieldcolor),
-                                  fillColor: Colors.black,
+                                  fillColor: Colors.amber.shade50,
+                                  filled: true,
                                   focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.amber,
                                     ),
                                   ),
                                   errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.deepOrange,
                                     ),
                                   ),
                                   focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.deepOrange,
                                     ),
                                   ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
-                                      color: Colors.amber,
+                                      color: Colors.transparent,
                                       width: 2.0,
                                     ),
                                   ),
@@ -367,29 +378,30 @@ class _SignupState extends State<Signup> {
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18,
                                       color: textfieldcolor),
-                                  fillColor: Colors.black,
+                                  fillColor: Colors.amber.shade50,
+                                  filled: true,
                                   focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.amber,
                                     ),
                                   ),
                                   errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.deepOrange,
                                     ),
                                   ),
                                   focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.deepOrange,
                                     ),
                                   ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
-                                      color: Colors.amber,
+                                      color: Colors.transparent,
                                       width: 2.0,
                                     ),
                                   ),
@@ -418,29 +430,30 @@ class _SignupState extends State<Signup> {
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18,
                                       color: textfieldcolor),
-                                  fillColor: Colors.black,
+                                  fillColor: Colors.amber.shade50,
+                                  filled: true,
                                   focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.amber,
                                     ),
                                   ),
                                   errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.deepOrange,
                                     ),
                                   ),
                                   focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.deepOrange,
                                     ),
                                   ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
-                                      color: Colors.amber,
+                                      color: Colors.transparent,
                                       width: 2.0,
                                     ),
                                   ),
@@ -469,29 +482,30 @@ class _SignupState extends State<Signup> {
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18,
                                       color: textfieldcolor),
-                                  fillColor: Colors.black,
+                                  fillColor: Colors.amber.shade50,
+                                  filled: true,
                                   focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.amber,
                                     ),
                                   ),
                                   errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.deepOrange,
                                     ),
                                   ),
                                   focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.deepOrange,
                                     ),
                                   ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
-                                      color: Colors.amber,
+                                      color: Colors.transparent,
                                       width: 2.0,
                                     ),
                                   ),
@@ -521,29 +535,30 @@ class _SignupState extends State<Signup> {
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18,
                                       color: textfieldcolor),
-                                  fillColor: Colors.black,
+                                  fillColor: Colors.amber.shade50,
+                                  filled: true,
                                   focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.amber,
                                     ),
                                   ),
                                   errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.deepOrange,
                                     ),
                                   ),
                                   focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
                                       color: Colors.deepOrange,
                                     ),
                                   ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide(
-                                      color: Colors.amber,
+                                      color: Colors.transparent,
                                       width: 2.0,
                                     ),
                                   ),
@@ -554,13 +569,13 @@ class _SignupState extends State<Signup> {
                               padding:
                                   const EdgeInsets.fromLTRB(10, 20, 10, 20),
                               child: Container(
-                                height: 50,
+                                height: 60,
                                 width: 400,
                                 child: FlatButton(
                                     color: Colors.amber,
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(16.0)),
+                                            BorderRadius.circular(30.0)),
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
                                         save();
