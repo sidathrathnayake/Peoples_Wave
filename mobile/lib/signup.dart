@@ -7,8 +7,6 @@ import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile/dashboard.dart';
 import 'package:mobile/signin.dart';
-
-import 'package:mobile/user.dart';
 import 'forgotpassword.dart';
 
 class Signup extends StatefulWidget {
@@ -21,19 +19,8 @@ class Signup extends StatefulWidget {
 class _SignupState extends State<Signup> {
   final _formKey = GlobalKey<FormState>();
 
-  Future save() async {
-    await http
-        .post("http://localhost:5000/user/userregister", body: <String, String>{
-      'userAcctype': user.userAccType,
-      'userPhone': user.userPhone,
-      'userEmail': user.userEmail,
-      'userPassword': user.userPassword
-    });
-    Navigator.push(
-        context, new MaterialPageRoute(builder: (context) => Signin()));
-  }
+var userAccType, userAccNumber, userIdType, userIdNumber, userEmail, userPhone, userPassword, userConfirmPassword;
 
-  User user = User("", "", "", "", "", "", "", "");
   List<String> AccType = ['YES', 'Jana Jaya', 'Vanitha Vasana'];
   String? selectAccType;
 
@@ -180,9 +167,9 @@ class _SignupState extends State<Signup> {
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
                                 controller: TextEditingController(
-                                    text: user.userAccNumber),
+                                    text: userAccNumber),
                                 onChanged: (value) {
-                                  user.userAccNumber = value;
+                                  userAccNumber = value;
                                 },
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -301,9 +288,9 @@ class _SignupState extends State<Signup> {
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
                                 controller: TextEditingController(
-                                    text: user.userIdNumber),
+                                    text: userIdNumber),
                                 onChanged: (value) {
-                                  user.userIdNumber = value;
+                                  userIdNumber = value;
                                 },
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -355,9 +342,9 @@ class _SignupState extends State<Signup> {
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
                                 controller:
-                                    TextEditingController(text: user.userEmail),
+                                    TextEditingController(text: userEmail),
                                 onChanged: (value) {
-                                  user.userEmail = value;
+                                  userEmail = value;
                                 },
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -412,9 +399,9 @@ class _SignupState extends State<Signup> {
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
                                 controller:
-                                    TextEditingController(text: user.userPhone),
+                                    TextEditingController(text: userPhone),
                                 onChanged: (value) {
-                                  user.userPhone = value;
+                                  userPhone = value;
                                 },
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -464,9 +451,9 @@ class _SignupState extends State<Signup> {
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
                                 controller: TextEditingController(
-                                    text: user.userPassword),
+                                    text: userPassword),
                                 onChanged: (value) {
-                                  user.userPassword = value;
+                                  userPassword = value;
                                 },
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -516,9 +503,9 @@ class _SignupState extends State<Signup> {
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
                                 controller: TextEditingController(
-                                    text: user.userConfirmPassword),
+                                    text: userConfirmPassword),
                                 onChanged: (value) {
-                                  user.userConfirmPassword = value;
+                                  userConfirmPassword = value;
                                 },
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -578,7 +565,7 @@ class _SignupState extends State<Signup> {
                                             BorderRadius.circular(30.0)),
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
-                                        save();
+                                        
                                       } else {
                                         print("no");
                                       }
@@ -602,15 +589,5 @@ class _SignupState extends State<Signup> {
     );
   }
 
-// DropdownMenuItem<String> accountType(String item) =>
-
-//             DropdownMenuItem(value: item,
-//             child: Text(item,
-//             style: GoogleFonts.montserrat(
-//                                       fontWeight: FontWeight.w500,
-//                                       fontSize: 18,
-//                                       color: textfieldcolor,
-//             ),
-//             ));
 
 }

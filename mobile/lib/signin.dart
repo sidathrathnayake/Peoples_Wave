@@ -4,12 +4,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile/dashboard.dart';
+import 'package:mobile/service_login.dart';
 import 'package:mobile/signup.dart';
 
-import 'package:mobile/user.dart';
 import 'forgotpassword.dart';
 
 class Signin extends StatefulWidget {
@@ -22,35 +23,23 @@ class Signin extends StatefulWidget {
 class _SigninState extends State<Signin> {
   final _formKey = GlobalKey<FormState>();
 
-  Future save() async {
-    var res = await http.post("http://localhost:5000/user/userlogin",
-        headers: <String, String>{
-          'Context-Type': 'application/json;charSet=UTF-8'
-        },
-        body: <String, String>{
-          'userEmail': user.userEmail,
-          'userPassword': user.userPassword
-        });
-    Navigator.push(
-        context, new MaterialPageRoute(builder: (context) => Dashboard()));
-  }
-
   Color textfieldcolor = Colors.black;
-  User user = User("", "", "", "","", "", "", "");
+
+  var userEmail, userPassword, userToken;
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar:  AppBar(
-      elevation: 0,
-      centerTitle: true,
-      title: Text("Sign In",
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: true,
+        title: Text(
+          "Sign In",
+        ),
       ),
-      
-    ),
       body: SingleChildScrollView(
         child: Container(
-          
           color: Colors.amber,
           height: size.height,
           child: Column(
@@ -60,7 +49,6 @@ class _SigninState extends State<Signin> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
-                  
                 ),
               ),
               Expanded(
@@ -86,11 +74,10 @@ class _SigninState extends State<Signin> {
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
-                                
                                 controller:
-                                    TextEditingController(text: user.userEmail),
+                                    TextEditingController(text: userEmail),
                                 onChanged: (value) {
-                                  user.userEmail = value;
+                                  userEmail = value;
                                 },
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -103,9 +90,7 @@ class _SigninState extends State<Signin> {
                                     return 'Please enter valid email!';
                                   }
                                 },
-                                
                                 style: TextStyle(color: Colors.black),
-
                                 decoration: InputDecoration(
                                   prefixIcon: Image.asset("icons/email.png"),
                                   labelText: "Email",
@@ -146,10 +131,10 @@ class _SigninState extends State<Signin> {
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
-                                controller: TextEditingController(
-                                    text: user.userPassword),
+                                controller:
+                                    TextEditingController(text: userPassword),
                                 onChanged: (value) {
-                                  user.userPassword = value;
+                                  userPassword = value;
                                 },
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -221,20 +206,18 @@ class _SigninState extends State<Signin> {
                             ),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(16, 30, 16, 0),
-                      
-                                    child: Text(
-                                      "We will send you a One Time Password on your phone number.",
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.montserrat(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14,
-                                          color: textfieldcolor
-                                          ),
-                                          
-                                    ),
+                              child: Text(
+                                "We will send you a One Time Password on your phone number.",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.montserrat(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    color: textfieldcolor),
+                              ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(16, 20, 16, 20),
+                              padding:
+                                  const EdgeInsets.fromLTRB(16, 20, 16, 20),
                               child: Container(
                                 height: 60,
                                 width: 400,
@@ -245,9 +228,39 @@ class _SigninState extends State<Signin> {
                                             BorderRadius.circular(30.0)),
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
-                                        save();
+                                        Service()
+                                            .login(userEmail,
+                                                userPassword)
+                                            .then((val) {
+                                          if (val.data['success']) {
+                                            userToken =
+                                                val.data['token'];
+                                            Fluttertoast.showToast(
+                                                msg: "Authenticated",
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.CENTER,
+                                                timeInSecForIosWeb: 4,
+                                                backgroundColor: Colors.red,
+                                                textColor: Colors.white,
+                                                fontSize: 16.0);
+                                            Navigator.push(
+                                                context,
+                                                new MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Dashboard()));
+                                          } else {
+                                            Fluttertoast.showToast(
+                                                msg: "Invalid email or password!",
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.CENTER,
+                                                timeInSecForIosWeb: 4,
+                                                backgroundColor: Colors.red,
+                                                textColor: Colors.white,
+                                                fontSize: 16.0);
+                                          }
+                                        });
                                       } else {
-                                        print("no");
+                                        print("Email or Password ");
                                       }
                                     },
                                     child: Text(

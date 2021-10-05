@@ -34,7 +34,10 @@ class _DashboardState extends State<Dashboard> {
         drawer: NavigationalDrawer(),
         appBar: AppBar(
           elevation: 0,
-          title: Text('Dashboard'),
+          title: Text('Dashboard',
+          style: TextStyle(
+            color: Colors.white
+          ),),
           centerTitle: true,
           leading: IconButton(
             icon: Image.asset("images/pagetop.png"),

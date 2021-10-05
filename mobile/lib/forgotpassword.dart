@@ -7,7 +7,6 @@ import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile/signin.dart';
 
-import 'package:mobile/user.dart';
 import 'forgotpassword.dart';
 
 class Forgotpassword extends StatefulWidget {
@@ -20,31 +19,22 @@ class Forgotpassword extends StatefulWidget {
 class _ForgotpasswordState extends State<Forgotpassword> {
   final _formKey = GlobalKey<FormState>();
 
-  Future save() async {
-    await http.post("http://localhost:5000/user/userforgotpassword",
-        body: <String, String>{
-          'userEmail': user.userEmail,
-        });
-    Navigator.push(
-        context, new MaterialPageRoute(builder: (context) => Signin()));
-  }
+  var userEmail;
 
-  User user = User("", "", "", "","", "", "", "");
   Color textfieldcolor = Colors.black;
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar:  AppBar(
-      elevation: 0,
-      centerTitle: true,
-      title: Text("Forgot Password",
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: true,
+        title: Text(
+          "Forgot Password",
+        ),
       ),
-      
-    ),
       body: SingleChildScrollView(
         child: Container(
-          
           color: Colors.amber,
           height: size.height,
           child: Column(
@@ -54,7 +44,6 @@ class _ForgotpasswordState extends State<Forgotpassword> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
-                  
                 ),
               ),
               Expanded(
@@ -75,30 +64,28 @@ class _ForgotpasswordState extends State<Forgotpassword> {
                               child: SizedBox(
                                   height: size.height / 3,
                                   width: size.width,
-                                  child: Image.asset("images/forgotpassword.png")),
+                                  child:
+                                      Image.asset("images/forgotpassword.png")),
                             ),
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(16, 30, 16, 20),
-                      
-                                    child: Text(
-                                      "We will send you a One Time Password to your email.",
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.montserrat(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14,
-                                          color: textfieldcolor
-                                          ),
-                                          
-                                    ),
+                              padding:
+                                  const EdgeInsets.fromLTRB(16, 30, 16, 20),
+                              child: Text(
+                                "We will send you a One Time Password to your email.",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.montserrat(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    color: textfieldcolor),
+                              ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
-                                
                                 controller:
-                                    TextEditingController(text: user.userEmail),
+                                    TextEditingController(text: userEmail),
                                 onChanged: (value) {
-                                  user.userEmail = value;
+                                  userEmail = value;
                                 },
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -111,9 +98,7 @@ class _ForgotpasswordState extends State<Forgotpassword> {
                                     return 'Please enter valid email!';
                                   }
                                 },
-                                
                                 style: TextStyle(color: Colors.black),
-
                                 decoration: InputDecoration(
                                   prefixIcon: Image.asset("icons/email.png"),
                                   labelText: "Email",
@@ -152,7 +137,8 @@ class _ForgotpasswordState extends State<Forgotpassword> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(16, 20, 16, 20),
+                              padding:
+                                  const EdgeInsets.fromLTRB(16, 20, 16, 20),
                               child: Container(
                                 height: 60,
                                 width: 400,
@@ -163,7 +149,6 @@ class _ForgotpasswordState extends State<Forgotpassword> {
                                             BorderRadius.circular(30.0)),
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
-                                        save();
                                       } else {
                                         print("no");
                                       }
@@ -177,7 +162,6 @@ class _ForgotpasswordState extends State<Forgotpassword> {
                                     )),
                               ),
                             ),
-                            
                           ],
                         ),
                       )))

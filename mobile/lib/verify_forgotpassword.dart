@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'user.dart';
 
 class VerifyFogotpassword extends StatefulWidget {
   const VerifyFogotpassword({ Key? key }) : super(key: key);
@@ -10,8 +9,6 @@ class VerifyFogotpassword extends StatefulWidget {
   _VerifyFogotpasswordState createState() => _VerifyFogotpasswordState();
 }
 
-
-User user = User("", "", "", "","", "", "", "");
   Color textfieldcolor = Colors.black;
 
 class _VerifyFogotpasswordState extends State<VerifyFogotpassword> {
@@ -80,11 +77,11 @@ class _VerifyFogotpasswordState extends State<VerifyFogotpassword> {
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
                                 
-                                controller:
-                                    TextEditingController(text: user.userEmail),
-                                onChanged: (value) {
-                                  user.userEmail = value;
-                                },
+                                // controller:
+                                //     TextEditingController(text: user.userEmail),
+                                // onChanged: (value) {
+                                //   user.userEmail = value;
+                                // },
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return 'Please enter Email';

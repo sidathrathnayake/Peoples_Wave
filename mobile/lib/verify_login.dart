@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'user.dart';
 
 class VerifyLogin extends StatefulWidget {
   const VerifyLogin({ Key? key }) : super(key: key);
@@ -9,7 +8,8 @@ class VerifyLogin extends StatefulWidget {
   @override
   _VerifyLoginState createState() => _VerifyLoginState();
 }
-  User user = User("", "", "", "","", "", "", "");
+
+
   Color textfieldcolor = Colors.black; 
 
 class _VerifyLoginState extends State<VerifyLogin> {
@@ -78,11 +78,11 @@ class _VerifyLoginState extends State<VerifyLogin> {
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
                                 
-                                controller:
-                                    TextEditingController(text: user.userEmail),
-                                onChanged: (value) {
-                                  user.userEmail = value;
-                                },
+                                // controller:
+                                //     TextEditingController(text: user.userEmail),
+                                // onChanged: (value) {
+                                //   user.userEmail = value;
+                                // },
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return 'Please enter Email';

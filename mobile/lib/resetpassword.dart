@@ -1,34 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'user.dart';
 
 class Resetpassword extends StatefulWidget {
-  const Resetpassword({ Key? key }) : super(key: key);
+  const Resetpassword({Key? key}) : super(key: key);
 
   @override
   _ResetpasswordState createState() => _ResetpasswordState();
 }
 
-  User user = User("", "", "", "","", "", "", "");
-  Color textfieldcolor = Colors.black; 
+var userPassword, userConfirmPassword;
+
+Color textfieldcolor = Colors.black;
 
 class _ResetpasswordState extends State<Resetpassword> {
- final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-      elevation: 0,
-      centerTitle: true,
-      title: Text("Reset Password",
+        elevation: 0,
+        centerTitle: true,
+        title: Text(
+          "Reset Password",
+        ),
       ),
-      
-    ),
       body: SingleChildScrollView(
         child: Container(
-          
           color: Colors.amber,
           height: size.height,
           child: Column(
@@ -38,7 +37,6 @@ class _ResetpasswordState extends State<Resetpassword> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
-                  
                 ),
               ),
               Expanded(
@@ -59,29 +57,28 @@ class _ResetpasswordState extends State<Resetpassword> {
                               child: SizedBox(
                                   height: size.height / 3,
                                   width: size.width,
-                                  child: Image.asset("images/resetpassword.png")),
+                                  child:
+                                      Image.asset("images/resetpassword.png")),
                             ),
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(16, 30, 16, 30),
-                      
-                                    child: Text(
-                                      "Enter your new password here.",
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.montserrat(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14,
-                                          color: textfieldcolor
-                                          ),
-                                          
-                                    ),
+                              padding:
+                                  const EdgeInsets.fromLTRB(16, 30, 16, 30),
+                              child: Text(
+                                "Enter your new password here.",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.montserrat(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    color: textfieldcolor),
+                              ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
                                 controller: TextEditingController(
-                                    text: user.userPassword),
+                                    text: userPassword),
                                 onChanged: (value) {
-                                  user.userPassword = value;
+                                  userPassword = value;
                                 },
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -131,9 +128,9 @@ class _ResetpasswordState extends State<Resetpassword> {
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
                                 controller: TextEditingController(
-                                    text: user.userConfirmPassword),
+                                    text: userConfirmPassword),
                                 onChanged: (value) {
-                                  user.userConfirmPassword = value;
+                                  userConfirmPassword = value;
                                 },
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -181,7 +178,8 @@ class _ResetpasswordState extends State<Resetpassword> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(16, 20, 16, 20),
+                              padding:
+                                  const EdgeInsets.fromLTRB(16, 20, 16, 20),
                               child: Container(
                                 height: 60,
                                 width: 400,
