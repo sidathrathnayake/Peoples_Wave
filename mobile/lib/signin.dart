@@ -95,10 +95,9 @@ class _SigninState extends State<Signin> {
                                   prefixIcon: Image.asset("icons/email.png"),
                                   labelText: "Email",
                                   labelStyle: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18,
+                                      fontSize: 16,
                                       color: textfieldcolor),
-                                  fillColor: Colors.amber.shade50,
+                                  fillColor: Colors.black12,
                                   filled: true,
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(30.0),
@@ -147,10 +146,9 @@ class _SigninState extends State<Signin> {
                                   prefixIcon: Image.asset("icons/password.png"),
                                   labelText: "Password",
                                   labelStyle: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18,
+                                      fontSize: 16,
                                       color: textfieldcolor),
-                                  fillColor: Colors.amber.shade50,
+                                  fillColor: Colors.black12,
                                   filled: true,
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(30.0),
@@ -181,8 +179,10 @@ class _SigninState extends State<Signin> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 245),
+                              padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
                               child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   InkWell(
                                     onTap: () {
@@ -273,8 +273,10 @@ class _SigninState extends State<Signin> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 230),
+                              padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
                               child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   InkWell(
                                     onTap: () {
