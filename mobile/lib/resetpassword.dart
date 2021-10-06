@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 class Resetpassword extends StatefulWidget {
   const Resetpassword({Key? key}) : super(key: key);
 
@@ -75,14 +74,16 @@ class _ResetpasswordState extends State<Resetpassword> {
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
-                                controller: TextEditingController(
-                                    text: userPassword),
+                                controller:
+                                    TextEditingController(text: userPassword),
                                 onChanged: (value) {
                                   userPassword = value;
                                 },
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return 'Please enter new password';
+                                  } else if (value.length < 6) {
+                                    return 'Password must contain atleast 6 characters';
                                   }
                                   return null;
                                 },
@@ -91,10 +92,8 @@ class _ResetpasswordState extends State<Resetpassword> {
                                   prefixIcon: Image.asset("icons/password.png"),
                                   labelText: "New Password",
                                   labelStyle: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18,
-                                      color: textfieldcolor),
-                                  fillColor: Colors.amber.shade50,
+                                      fontSize: 16, color: textfieldcolor),
+                                  fillColor: Colors.black12,
                                   filled: true,
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(30.0),
@@ -135,6 +134,8 @@ class _ResetpasswordState extends State<Resetpassword> {
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return 'Please confirm password';
+                                  }else if (userPassword != userConfirmPassword) {
+                                    return 'Passwords are mismatching. Please try again!';
                                   }
                                   return null;
                                 },
@@ -144,10 +145,8 @@ class _ResetpasswordState extends State<Resetpassword> {
                                       Image.asset("icons/confirmpassword.png"),
                                   labelText: "Confirm Password",
                                   labelStyle: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18,
-                                      color: textfieldcolor),
-                                  fillColor: Colors.amber.shade50,
+                                      fontSize: 16, color: textfieldcolor),
+                                  fillColor: Colors.black12,
                                   filled: true,
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(30.0),

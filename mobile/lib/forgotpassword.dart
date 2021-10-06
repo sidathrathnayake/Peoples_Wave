@@ -103,10 +103,9 @@ class _ForgotpasswordState extends State<Forgotpassword> {
                                   prefixIcon: Image.asset("icons/email.png"),
                                   labelText: "Email",
                                   labelStyle: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18,
+                                      fontSize: 16,
                                       color: textfieldcolor),
-                                  fillColor: Colors.amber.shade50,
+                                  fillColor: Colors.black12,
                                   filled: true,
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(30.0),

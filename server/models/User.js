@@ -5,10 +5,21 @@ const jwt = require('jsonwebtoken');
 
 const userSchema = new mongoose.Schema({
 
-    userName:{
+    userAccType:{
         type:String,
-        required: [true, 'Name field can not be empty!'],
-        unique: true
+        required: [true],
+    },
+    userAccNumber:{
+        type:String,
+        required: [true],
+    },
+    userIdType:{
+        type:String,
+        required: [true],
+    },
+    userIdNumber:{
+        type:String,
+        required: [true],
     },
     userEmail:{
         type:String,
@@ -19,9 +30,13 @@ const userSchema = new mongoose.Schema({
             "Invalid email.Please provide a valid email",
         ]
     },
+    userPhone:{
+        type:String,
+        required: [true],
+    },
     userPassword:{
         type:String,
-        required: [true , 'Password field can not be empty!']
+        required: [true]
     },
     resetPasswordToken: String,
     resetPasswordExpire: Date 

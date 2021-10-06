@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 class VerifyLogin extends StatefulWidget {
-  const VerifyLogin({ Key? key }) : super(key: key);
+  const VerifyLogin({Key? key}) : super(key: key);
 
   @override
   _VerifyLoginState createState() => _VerifyLoginState();
 }
 
-
-  Color textfieldcolor = Colors.black; 
+var otp;
+Color textfieldcolor = Colors.black;
 
 class _VerifyLoginState extends State<VerifyLogin> {
   final _formKey = GlobalKey<FormState>();
@@ -18,16 +17,15 @@ class _VerifyLoginState extends State<VerifyLogin> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar:  AppBar(
-      elevation: 0,
-      centerTitle: true,
-      title: Text("Verification",
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: true,
+        title: Text(
+          "Verification",
+        ),
       ),
-      
-    ),
       body: SingleChildScrollView(
         child: Container(
-          
           color: Colors.amber,
           height: size.height,
           child: Column(
@@ -37,7 +35,6 @@ class _VerifyLoginState extends State<VerifyLogin> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
-                  
                 ),
               ),
               Expanded(
@@ -61,45 +58,39 @@ class _VerifyLoginState extends State<VerifyLogin> {
                                   child: Image.asset("images/verifyphone.png")),
                             ),
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(16, 30, 16, 20),
-                      
-                                    child: Text(
-                                      "You will get a OTP via SMS.",
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.montserrat(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14,
-                                          color: textfieldcolor
-                                          ),
-                                          
-                                    ),
+                              padding:
+                                  const EdgeInsets.fromLTRB(16, 30, 16, 20),
+                              child: Text(
+                                "You will get a OTP via SMS.",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.montserrat(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    color: textfieldcolor),
+                              ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
-                                
-                                // controller:
-                                //     TextEditingController(text: user.userEmail),
-                                // onChanged: (value) {
-                                //   user.userEmail = value;
-                                // },
+                                controller:
+                                    TextEditingController(text: otp),
+                                onChanged: (value) {
+                                  otp = value;
+                                },
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return 'Please enter Email';
-                                  } else if (RegExp(
-                                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                      .hasMatch(value)) {
-                                    return null;
-                                  } else {
-                                    return 'Please enter valid email!';
+                                    return 'Please enter the otp we sent you';
+                                  } else if(value.length != 6){
+                                    return 'Wrong OTP number';
                                   }
+                                    return null;
+                                  
                                 },
-                                
+
                                 style: TextStyle(color: Colors.black),
 
                                 decoration: InputDecoration(
-                                  
-                                  fillColor: Colors.amber.shade50,
+                                  fillColor: Colors.black12,
                                   filled: true,
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(30.0),
@@ -130,7 +121,8 @@ class _VerifyLoginState extends State<VerifyLogin> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(16, 20, 16, 20),
+                              padding:
+                                  const EdgeInsets.fromLTRB(16, 20, 16, 20),
                               child: Container(
                                 height: 60,
                                 width: 400,
@@ -156,8 +148,11 @@ class _VerifyLoginState extends State<VerifyLogin> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 270),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 16.0),
                               child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   InkWell(
                                     onTap: () {
