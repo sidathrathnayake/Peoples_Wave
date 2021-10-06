@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile/dashboard.dart';
 import 'package:mobile/forgotpassword.dart';
 import 'package:mobile/resetpassword.dart';
+import 'package:mobile/same-bank-transaction/add_favorite_beneficiary.dart';
 import 'package:mobile/verify_login.dart';
 
 import 'signin.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.amber,
       ),
-      home: Signup(),
+      home: AddSameBankBeneficiary(),
     );
   }
 }
