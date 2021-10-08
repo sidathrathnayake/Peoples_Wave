@@ -3,19 +3,21 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile/dashboard.dart';
+import 'package:mobile/service_register.dart';
 import 'package:mobile/signin.dart';
 
-class AddSameBankBeneficiary extends StatefulWidget {
-  const AddSameBankBeneficiary({Key? key}) : super(key: key);
+class AddFavoriteBill extends StatefulWidget {
+  const AddFavoriteBill({Key? key}) : super(key: key);
 
   @override
-  _AddSameBankBeneficiaryState createState() => _AddSameBankBeneficiaryState();
+  _AddFavoriteBillState createState() => _AddFavoriteBillState();
 }
 
-class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
+class _AddFavoriteBillState extends State<AddFavoriteBill> {
   final _formKey = GlobalKey<FormState>();
 
   var userAccType,
@@ -27,14 +29,13 @@ class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
       userPassword,
       userConfirmPassword;
 
-  // List<String> AccType = ['YES', 'Jana Jaya', 'Vanitha Vasana'];
-  // String? selectAccType;
+  List<String> AccType = ['YES', 'Jana Jaya', 'Vanitha Vasana'];
+  String? selectAccType;
 
-  // List<String> IdType = ['National ID Number', 'Passport'];
-  // String? selectIdType;
+  List<String> IdType = ['National ID Number', 'Passport'];
+  String? selectIdType;
 
   Color textfieldcolor = Colors.black;
-  // #FFC107
 
   @override
   Widget build(BuildContext context) {
@@ -79,27 +80,15 @@ class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
                               child: SizedBox(
                                   height: size.height / 3,
                                   width: size.width,
-                                  child: Image.asset(
-                                      "images/add_beneficiary_sb.png")),
+                                  child: Image.asset("images/payments_m.png")),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(16.0),
-                              child: TextFormField(
-                                controller:
-                                    TextEditingController(text: userAccNumber),
-                                onChanged: (value) {
-                                  userAccNumber = value;
-                                },
-                                style: TextStyle(color: Colors.black),
+                              child: DropdownButtonFormField(
                                 decoration: InputDecoration(
-                                  prefixIcon:
-                                      Image.asset("icons/accountnumber.png"),
-                                  labelText: "Beneficiary Account Name",
-                                  labelStyle: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18,
-                                      color: textfieldcolor),
-                                  fillColor: Colors.amber.shade50,
+                                  prefixIcon: Image.asset('icons/idtype.png'),
+                                  hintTextDirection: null,
+                                  fillColor: Colors.black12,
                                   filled: true,
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(30.0),
@@ -127,91 +116,58 @@ class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
                                     ),
                                   ),
                                 ),
+                                dropdownColor: Colors.amber.shade50,
+                                isExpanded: true,
+                                hint: Text('Service Provider',
+                                    textDirection: null,
+                                    style: GoogleFonts.montserrat(
+                                        fontSize: 16, color: textfieldcolor)),
+                                value: selectIdType,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    selectIdType = newValue as String?;
+                                    userIdType = selectIdType;
+                                  });
+                                },
+                                validator: (value) {
+                                  if (value == null) {
+                                    return 'Please select an identity type';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                items: IdType.map((idType) {
+                                  return DropdownMenuItem(
+                                    child: new Text(idType,
+                                        style: GoogleFonts.montserrat(
+                                            fontSize: 16,
+                                            color: textfieldcolor)),
+                                    value: idType,
+                                  );
+                                }).toList(),
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
                                 controller:
-                                    TextEditingController(text: userAccNumber),
+                                    TextEditingController(text: userPhone),
                                 onChanged: (value) {
-                                  userAccNumber = value;
+                                  userPhone = value;
                                 },
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return 'Please enter account number';
-                                  } else if (value.length != 16) {
-                                    return 'Please enter valid Account number';
+                                    return 'Please enter contact number';
                                   }
                                   return null;
                                 },
                                 style: TextStyle(color: Colors.black),
                                 decoration: InputDecoration(
-                                  prefixIcon:
-                                      Image.asset("icons/accountnumber.png"),
-                                  labelText: "Beneficiary Account Number",
+                                  prefixIcon: Image.asset("icons/phone.png"),
+                                  labelText: "Payee Description",
                                   labelStyle: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18,
-                                      color: textfieldcolor),
-                                  fillColor: Colors.amber.shade50,
-                                  filled: true,
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                    borderSide: BorderSide(
-                                      color: Colors.amber,
-                                    ),
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                    borderSide: BorderSide(
-                                      color: Colors.deepOrange,
-                                    ),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                    borderSide: BorderSide(
-                                      color: Colors.deepOrange,
-                                    ),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                    borderSide: BorderSide(
-                                      color: Colors.transparent,
-                                      width: 2.0,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: TextFormField(
-                                controller:
-                                    TextEditingController(text: userEmail),
-                                onChanged: (value) {
-                                  userEmail = value;
-                                },
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please enter Email';
-                                  } else if (RegExp(
-                                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                      .hasMatch(value)) {
-                                    return null;
-                                  } else {
-                                    return 'Please enter valid email!';
-                                  }
-                                },
-                                style: TextStyle(color: Colors.black),
-                                decoration: InputDecoration(
-                                  prefixIcon: Image.asset("icons/email.png"),
-                                  labelText: "Beneficiary Email Address",
-                                  labelStyle: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18,
-                                      color: textfieldcolor),
-                                  fillColor: Colors.amber.shade50,
+                                      fontSize: 16, color: textfieldcolor),
+                                  fillColor: Colors.black12,
                                   filled: true,
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(30.0),
@@ -258,12 +214,10 @@ class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
                                 style: TextStyle(color: Colors.black),
                                 decoration: InputDecoration(
                                   prefixIcon: Image.asset("icons/phone.png"),
-                                  labelText: "Beneficiary Mobile Number",
+                                  labelText: "Reference number",
                                   labelStyle: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18,
-                                      color: textfieldcolor),
-                                  fillColor: Colors.amber.shade50,
+                                      fontSize: 16, color: textfieldcolor),
+                                  fillColor: Colors.black12,
                                   filled: true,
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(30.0),
@@ -306,8 +260,45 @@ class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
                                             BorderRadius.circular(30.0)),
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
+                                        Service()
+                                            .register(
+                                                userAccType,
+                                                userAccNumber,
+                                                userIdType,
+                                                userIdNumber,
+                                                userEmail,
+                                                userPhone,
+                                                userPassword,
+                                                userConfirmPassword)
+                                            .then((val) {
+                                          if (val.data['success']) {
+                                            Fluttertoast.showToast(
+                                                msg: "Authenticated",
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.CENTER,
+                                                timeInSecForIosWeb: 4,
+                                                backgroundColor: Colors.red,
+                                                textColor: Colors.white,
+                                                fontSize: 16.0);
+                                            Navigator.push(
+                                                context,
+                                                new MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Dashboard()));
+                                          } else {
+                                            Fluttertoast.showToast(
+                                                msg:
+                                                    "Invalid email or password!",
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.CENTER,
+                                                timeInSecForIosWeb: 4,
+                                                backgroundColor: Colors.red,
+                                                textColor: Colors.white,
+                                                fontSize: 16.0);
+                                          }
+                                        });
                                       } else {
-                                        print("no");
+                                        print("Email or Password ");
                                       }
                                     },
                                     child: Text(

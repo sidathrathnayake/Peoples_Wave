@@ -8,14 +8,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile/dashboard.dart';
 import 'package:mobile/signin.dart';
 
-class AddSameBankBeneficiary extends StatefulWidget {
-  const AddSameBankBeneficiary({Key? key}) : super(key: key);
+class SameBankTransactionOtp extends StatefulWidget {
+  const SameBankTransactionOtp({Key? key}) : super(key: key);
 
   @override
-  _AddSameBankBeneficiaryState createState() => _AddSameBankBeneficiaryState();
+  _SameBankTransactionOtpState createState() => _SameBankTransactionOtpState();
 }
 
-class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
+class _SameBankTransactionOtpState extends State<SameBankTransactionOtp> {
   final _formKey = GlobalKey<FormState>();
 
   var userAccType,
@@ -34,7 +34,6 @@ class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
   // String? selectIdType;
 
   Color textfieldcolor = Colors.black;
-  // #FFC107
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +79,7 @@ class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
                                   height: size.height / 3,
                                   width: size.width,
                                   child: Image.asset(
-                                      "images/add_beneficiary_sb.png")),
+                                      "images/sb_transaction.png")),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(16.0),
@@ -90,11 +89,19 @@ class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
                                 onChanged: (value) {
                                   userAccNumber = value;
                                 },
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter account number';
+                                  } else if (value.length != 16) {
+                                    return 'Please enter valid Account number';
+                                  }
+                                  return null;
+                                },
                                 style: TextStyle(color: Colors.black),
                                 decoration: InputDecoration(
                                   prefixIcon:
                                       Image.asset("icons/accountnumber.png"),
-                                  labelText: "Beneficiary Account Name",
+                                  labelText: "Pay From",
                                   labelStyle: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18,
@@ -149,7 +156,7 @@ class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
                                 decoration: InputDecoration(
                                   prefixIcon:
                                       Image.asset("icons/accountnumber.png"),
-                                  labelText: "Beneficiary Account Number",
+                                  labelText: "Pay To",
                                   labelStyle: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18,
@@ -192,21 +199,21 @@ class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
                                 onChanged: (value) {
                                   userEmail = value;
                                 },
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please enter Email';
-                                  } else if (RegExp(
-                                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                      .hasMatch(value)) {
-                                    return null;
-                                  } else {
-                                    return 'Please enter valid email!';
-                                  }
-                                },
+                                // validator: (value) {
+                                //   if (value!.isEmpty) {
+                                //     return 'Please enter Email';
+                                //   } else if (RegExp(
+                                //           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                //       .hasMatch(value)) {
+                                //     return null;
+                                //   } else {
+                                //     return 'Please enter valid email!';
+                                //   }
+                                // },
                                 style: TextStyle(color: Colors.black),
                                 decoration: InputDecoration(
                                   prefixIcon: Image.asset("icons/email.png"),
-                                  labelText: "Beneficiary Email Address",
+                                  labelText: "Amount",
                                   labelStyle: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18,
@@ -258,7 +265,59 @@ class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
                                 style: TextStyle(color: Colors.black),
                                 decoration: InputDecoration(
                                   prefixIcon: Image.asset("icons/phone.png"),
-                                  labelText: "Beneficiary Mobile Number",
+                                  labelText: "Contact Number",
+                                  labelStyle: GoogleFonts.montserrat(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 18,
+                                      color: textfieldcolor),
+                                  fillColor: Colors.amber.shade50,
+                                  filled: true,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    borderSide: BorderSide(
+                                      color: Colors.amber,
+                                    ),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    borderSide: BorderSide(
+                                      color: Colors.deepOrange,
+                                    ),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    borderSide: BorderSide(
+                                      color: Colors.deepOrange,
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    borderSide: BorderSide(
+                                      color: Colors.transparent,
+                                      width: 2.0,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: TextFormField(
+                                controller:
+                                    TextEditingController(text: userPhone),
+                                onChanged: (value) {
+                                  userPhone = value;
+                                },
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter remarks';
+                                  }
+                                  return null;
+                                },
+                                style: TextStyle(color: Colors.black),
+                                decoration: InputDecoration(
+                                  prefixIcon: Image.asset("icons/phone.png"),
+                                  labelText: "Remarks",
                                   labelStyle: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18,

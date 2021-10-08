@@ -8,14 +8,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile/dashboard.dart';
 import 'package:mobile/signin.dart';
 
-class AddSameBankBeneficiary extends StatefulWidget {
-  const AddSameBankBeneficiary({Key? key}) : super(key: key);
+class EditSameBankBeneficiary extends StatefulWidget {
+  const EditSameBankBeneficiary({Key? key}) : super(key: key);
 
   @override
-  _AddSameBankBeneficiaryState createState() => _AddSameBankBeneficiaryState();
+  _EditSameBankBeneficiaryState createState() => _EditSameBankBeneficiaryState();
 }
 
-class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
+class _EditSameBankBeneficiaryState extends State<EditSameBankBeneficiary> {
   final _formKey = GlobalKey<FormState>();
 
   var userAccType,
@@ -34,7 +34,6 @@ class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
   // String? selectIdType;
 
   Color textfieldcolor = Colors.black;
-  // #FFC107
 
   @override
   Widget build(BuildContext context) {
