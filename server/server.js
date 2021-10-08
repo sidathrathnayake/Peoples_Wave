@@ -42,3 +42,10 @@ const same_bank_beneficiary = require("./routes/beneficiarySameBank_route");
 
 app.use("/one-time-transaction",one_time_transaction);
 app.use("/same-bank-beneficiary",same_bank_beneficiary);
+
+/** Dhananjaya */
+const OneTimeTransfer = require('./routes/One_Time_Transfer.route');
+const BeneficiaryInterBank = require('./routes/Beneficiary_Inter_Bank.route');
+
+app.use("/transfer" ,OneTimeTransfer);
+app.use("/inter-bank",BeneficiaryInterBank);
