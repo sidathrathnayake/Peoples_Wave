@@ -7,36 +7,34 @@ import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile/dashboard.dart';
-import 'package:mobile/same-bank-transaction/sb_beneficiary.dart';
+import 'package:mobile/payments/favorite_bill_model.dart';
 import 'package:mobile/signin.dart';
 
-class AddSameBankBeneficiary extends StatefulWidget {
-  const AddSameBankBeneficiary({Key? key}) : super(key: key);
+class AddFavoriteBillPayment extends StatefulWidget {
+  const AddFavoriteBillPayment({Key? key}) : super(key: key);
 
   @override
-  _AddSameBankBeneficiaryState createState() => _AddSameBankBeneficiaryState();
+  _AddFavoriteBillPaymentState createState() => _AddFavoriteBillPaymentState();
 }
 
-class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
+class _AddFavoriteBillPaymentState extends State<AddFavoriteBillPayment> {
   final _formKey = GlobalKey<FormState>();
-  // List<String> AccType = ['YES', 'Jana Jaya', 'Vanitha Vasana'];
-  // String? selectAccType;
+  var userAccType;
+  List<String> BillType = ['Dialog Television', 'Dialog Mobile', 'Dialog Broadband'];
+  String? selectBillType;
 
   // List<String> IdType = ['National ID Number', 'Passport'];
   // String? selectIdType;
   Future save() async {
     await http.post(
-      Uri.parse(
-          'http://localhost:5000/same-bank-beneficiary/insert-beneficiary'),
+      Uri.parse('http://localhost:5000/bill/add'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-        'beneficiary_account_name': sb_beneficiary.beneficiary_account_name,
-        'beneficiary_account_number': sb_beneficiary.beneficiary_account_number,
-        'beneficiary_email': sb_beneficiary.beneficiary_email,
-        'beneficiary_mobile': sb_beneficiary.beneficiary_mobile,
-        'account_mobile': '0776572518',
+        'serviceProvider': favorite_bill_model.serviceProvider,
+        'payeeDescription': favorite_bill_model.payeeDescription,
+        'referenceNumber': favorite_bill_model.referenceNumber,
       }),
     );
     Navigator.push(
@@ -45,7 +43,7 @@ class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
     );
   }
 
-  Sb_Beneficiary sb_beneficiary = Sb_Beneficiary("", "", "", "", "");
+  Favorite_Bill_Model favorite_bill_model = Favorite_Bill_Model("", "", "");
   Color textfieldcolor = Colors.black;
   // #FFC107
 
@@ -64,7 +62,7 @@ class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
       body: SingleChildScrollView(
         child: Container(
           color: Colors.amber,
-          height: size.height * 1.1,
+          height: size.height * 1.0,
           child: Column(
             children: [
               Container(
@@ -92,17 +90,83 @@ class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
                               child: SizedBox(
                                   height: size.height / 3,
                                   width: size.width,
-                                  child: Image.asset(
-                                      "images/add_beneficiary_sb.png")),
+                                  child:
+                                      Image.asset("images/add_fav_bill.png")),
                             ),
+                            // Padding(
+                            //   padding: const EdgeInsets.all(16.0),
+                            //   child: DropdownButtonFormField(
+                            //     decoration: InputDecoration(
+                            //       prefixIcon:
+                            //           Image.asset('icons/accounttype.png'),
+                            //       hintTextDirection: null,
+                            //       fillColor: Colors.black12,
+                            //       filled: true,
+                            //       focusedBorder: OutlineInputBorder(
+                            //         borderRadius: BorderRadius.circular(30.0),
+                            //         borderSide: BorderSide(
+                            //           color: Colors.amber,
+                            //         ),
+                            //       ),
+                            //       errorBorder: OutlineInputBorder(
+                            //         borderRadius: BorderRadius.circular(30.0),
+                            //         borderSide: BorderSide(
+                            //           color: Colors.deepOrange,
+                            //         ),
+                            //       ),
+                            //       focusedErrorBorder: OutlineInputBorder(
+                            //         borderRadius: BorderRadius.circular(30.0),
+                            //         borderSide: BorderSide(
+                            //           color: Colors.deepOrange,
+                            //         ),
+                            //       ),
+                            //       enabledBorder: OutlineInputBorder(
+                            //         borderRadius: BorderRadius.circular(30.0),
+                            //         borderSide: BorderSide(
+                            //           color: Colors.transparent,
+                            //           width: 2.0,
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     isExpanded: true,
+                            //     dropdownColor: Colors.amber.shade50,
+                            //     hint: Text('Service Provider',
+                            //         textDirection: null,
+                            //         style: GoogleFonts.montserrat(
+                            //             fontSize: 16, color: textfieldcolor)),
+                            //     value: selectBillType,
+                            //     onChanged: (newValue) {
+                            //       setState(() {
+                            //         selectBillType = newValue as String?;
+                            //         userAccType = selectBillType;
+                            //       });
+                            //     },
+                            //     validator: (value) {
+                            //       if (value == null) {
+                            //         return 'Please select an account type';
+                            //       } else {
+                            //         return null;
+                            //       }
+                            //     },
+                            //     items: BillType.map((serviceProvider) {
+                            //       return DropdownMenuItem(
+                            //         child: new Text(serviceProvider,
+                            //             style: GoogleFonts.montserrat(
+                            //                 fontSize: 16,
+                            //                 color: textfieldcolor)),
+                            //         value: favorite_bill_model.serviceProvider,
+                            //       );
+                            //     }).toList(),
+                            //   ),
+                            // ),
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
                                 controller: TextEditingController(
-                                    text: sb_beneficiary
-                                        .beneficiary_account_name),
+                                    text: favorite_bill_model
+                                        .serviceProvider),
                                 onChanged: (value) {
-                                  sb_beneficiary.beneficiary_account_name =
+                                  favorite_bill_model.serviceProvider =
                                       value;
                                 },
                                 validator: (value) {
@@ -113,9 +177,8 @@ class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
                                 },
                                 style: TextStyle(color: Colors.black),
                                 decoration: InputDecoration(
-                                  prefixIcon:
-                                      Image.asset("icons/idtype.png"),
-                                  labelText: "Beneficiary Account Name",
+                                  prefixIcon: Image.asset("icons/idtype.png"),
+                                  labelText: "Payee Description",
                                   labelStyle: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18,
@@ -154,19 +217,72 @@ class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
                                 controller: TextEditingController(
-                                    text: sb_beneficiary
-                                        .beneficiary_account_number),
-                                
+                                    text: favorite_bill_model
+                                        .payeeDescription),
                                 onChanged: (value) {
-                                  sb_beneficiary.beneficiary_account_number =
+                                  favorite_bill_model.payeeDescription =
+                                      value;
+                                },
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter name';
+                                  }
+                                  return null;
+                                },
+                                style: TextStyle(color: Colors.black),
+                                decoration: InputDecoration(
+                                  prefixIcon: Image.asset("icons/idtype.png"),
+                                  labelText: "Payee Description",
+                                  labelStyle: GoogleFonts.montserrat(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 18,
+                                      color: textfieldcolor),
+                                  fillColor: Colors.amber.shade50,
+                                  filled: true,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    borderSide: BorderSide(
+                                      color: Colors.amber,
+                                    ),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    borderSide: BorderSide(
+                                      color: Colors.deepOrange,
+                                    ),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    borderSide: BorderSide(
+                                      color: Colors.deepOrange,
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    borderSide: BorderSide(
+                                      color: Colors.transparent,
+                                      width: 2.0,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: TextFormField(
+                                controller: TextEditingController(
+                                    text: favorite_bill_model
+                                        .referenceNumber),
+                                onChanged: (value) {
+                                  favorite_bill_model.referenceNumber =
                                       value;
                                 },
                                 keyboardType: TextInputType.number,
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return 'Please enter account number';
-                                  } else if (value.length != 16) {
-                                    return 'Please enter valid Account number';
+                                    return 'Please enter reference number';
+                                  } else if (value.length != 10) {
+                                    return 'Please enter valid reference number';
                                   }
                                   return null;
                                 },
@@ -174,119 +290,7 @@ class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
                                 decoration: InputDecoration(
                                   prefixIcon:
                                       Image.asset("icons/accountnumber.png"),
-                                  labelText: "Beneficiary Account Number",
-                                  labelStyle: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18,
-                                      color: textfieldcolor),
-                                  fillColor: Colors.amber.shade50,
-                                  filled: true,
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                    borderSide: BorderSide(
-                                      color: Colors.amber,
-                                    ),
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                    borderSide: BorderSide(
-                                      color: Colors.deepOrange,
-                                    ),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                    borderSide: BorderSide(
-                                      color: Colors.deepOrange,
-                                    ),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                    borderSide: BorderSide(
-                                      color: Colors.transparent,
-                                      width: 2.0,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: TextFormField(
-                                controller: TextEditingController(
-                                    text: sb_beneficiary.beneficiary_email),
-                                onChanged: (value) {
-                                  sb_beneficiary.beneficiary_email = value;
-                                },
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please enter Email';
-                                  } else if (RegExp(
-                                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                      .hasMatch(value)) {
-                                    return null;
-                                  } else {
-                                    return 'Please enter valid email!';
-                                  }
-                                },
-                                style: TextStyle(color: Colors.black),
-                                decoration: InputDecoration(
-                                  prefixIcon: Image.asset("icons/email.png"),
-                                  labelText: "Beneficiary Email Address",
-                                  labelStyle: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18,
-                                      color: textfieldcolor),
-                                  fillColor: Colors.amber.shade50,
-                                  filled: true,
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                    borderSide: BorderSide(
-                                      color: Colors.amber,
-                                    ),
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                    borderSide: BorderSide(
-                                      color: Colors.deepOrange,
-                                    ),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                    borderSide: BorderSide(
-                                      color: Colors.deepOrange,
-                                    ),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                    borderSide: BorderSide(
-                                      color: Colors.transparent,
-                                      width: 2.0,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: TextFormField(
-                                controller: TextEditingController(
-                                    text: sb_beneficiary.beneficiary_mobile),
-                                onChanged: (value) {
-                                  sb_beneficiary.beneficiary_mobile = value;
-                                },
-                                keyboardType: TextInputType.number,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please enter mobile number';
-                                  } else if (value.length != 10) {
-                                    return 'Please enter valid mobile number';
-                                  }
-                                  return null;
-                                },
-                                style: TextStyle(color: Colors.black),
-                                decoration: InputDecoration(
-                                  prefixIcon: Image.asset("icons/phone.png"),
-                                  labelText: "Beneficiary Mobile Number",
+                                  labelText: "Reference Number",
                                   labelStyle: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18,

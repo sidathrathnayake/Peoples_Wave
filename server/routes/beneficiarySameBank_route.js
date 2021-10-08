@@ -7,6 +7,7 @@ router.post('/insert-beneficiary', (req,res) => {
         beneficiary_account_number : req.body.beneficiary_account_number,
         beneficiary_email : req.body.beneficiary_email,
         beneficiary_mobile : req.body.beneficiary_mobile,
+        account_mobile : req.body.account_mobile,
     });
         try {
             newBeneficiary
@@ -21,10 +22,11 @@ router.post('/insert-beneficiary', (req,res) => {
         }
 })
 
-router.route('/get-all-beneficiaries').get((req,res) => {
+router.route('/get-all-beneficiaries/:account_mobile').get((req,res) => {
     try {
+        account_mobile = req.params.account_mobile;
         Beneficiary_Same_Bank
-        .find()
+        .find({"account_mobile": account_mobile})
         .then((beneficiary_same_bank) => {
             res.status(200).json(beneficiary_same_bank);
             console.log("Your All Beneficiaries Fetched! "+ beneficiary_same_bank);
@@ -60,6 +62,7 @@ router.route('/update-one-beneficiary/:id').put(async(req,res) => {
             get_one_beneficiary.beneficiary_account_number = req.body.beneficiary_account_number,
             get_one_beneficiary.beneficiary_email = req.body.beneficiary_email,
             get_one_beneficiary.beneficiary_mobile = req.body.beneficiary_mobile,
+            //get_one_beneficiary.account_mobile = req.body.account_mobile,
 
             get_one_beneficiary
             .save()

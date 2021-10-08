@@ -42,3 +42,6 @@ const same_bank_beneficiary = require("./routes/beneficiarySameBank_route");
 
 app.use("/one-time-transaction",one_time_transaction);
 app.use("/same-bank-beneficiary",same_bank_beneficiary);
+
+const fav_bill = require("./routes/fav_bill_route");
+app.use("/bill",fav_bill);
