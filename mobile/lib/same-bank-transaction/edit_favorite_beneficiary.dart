@@ -1,40 +1,61 @@
-// ignore: unused_import
+import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile/dashboard.dart';
-import 'package:mobile/signin.dart';
+import 'package:mobile/same-bank-transaction/sb_beneficiary.dart';
+import 'package:mobile/same-bank-transaction/view_all_beneficiary.dart';
 
-class EditSameBankBeneficiary extends StatefulWidget {
-  const EditSameBankBeneficiary({Key? key}) : super(key: key);
-
-  @override
-  _EditSameBankBeneficiaryState createState() => _EditSameBankBeneficiaryState();
-}
-
-class _EditSameBankBeneficiaryState extends State<EditSameBankBeneficiary> {
+class EditFavoriteBeneficiarySB extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
+  String beneficiary_account_name;
+  String beneficiary_account_number;
+  String beneficiary_email;
+  String beneficiary_mobile;
 
-  var userAccType,
-      userAccNumber,
-      userIdType,
-      userIdNumber,
-      userEmail,
-      userPhone,
-      userPassword,
-      userConfirmPassword;
+  late BuildContext context;
 
-  // List<String> AccType = ['YES', 'Jana Jaya', 'Vanitha Vasana'];
-  // String? selectAccType;
+  EditFavoriteBeneficiarySB({
+    Key? key,
+    required this.beneficiary_account_name,
+    required this.beneficiary_account_number,
+    required this.beneficiary_email,
+    required this.beneficiary_mobile,
+  }) : super(key: key);
 
-  // List<String> IdType = ['National ID Number', 'Passport'];
-  // String? selectIdType;
+  get id => "6160899bd94e0e3e48acd220";
+
+  Future save() async {
+    await http.put(
+      Uri.parse(
+          'http://localhost:5000/same-bank-beneficiary/update-one-beneficiary/${id}'),
+      // 'http://localhost:5000/same-bank-beneficiary/update-one-beneficiary/6160899bd94e0e3e48acd220'
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        '_id': sb_beneficiary_update.id,
+        'beneficiary_account_name':
+            sb_beneficiary_update.beneficiary_account_name,
+        'beneficiary_account_number':
+            sb_beneficiary_update.beneficiary_account_number,
+        'beneficiary_email': sb_beneficiary_update.beneficiary_email,
+        'beneficiary_mobile': sb_beneficiary_update.beneficiary_mobile,
+        'account_mobile': '0776572518',
+      }),
+    );
+
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => ViewAllBeneficiarySB()));
+  }
+
+  Sb_Beneficiary_Update sb_beneficiary_update =
+      Sb_Beneficiary_Update("", "", "", "", "", "");
 
   Color textfieldcolor = Colors.black;
-
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -44,13 +65,13 @@ class _EditSameBankBeneficiaryState extends State<EditSameBankBeneficiary> {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          "Sign Up",
+          "Edit Favorite Beneficiary",
         ),
       ),
       body: SingleChildScrollView(
         child: Container(
           color: Colors.amber,
-          height: size.height * 1.8,
+          height: size.height * 1.1,
           child: Column(
             children: [
               Container(
@@ -84,15 +105,21 @@ class _EditSameBankBeneficiaryState extends State<EditSameBankBeneficiary> {
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
-                                controller:
-                                    TextEditingController(text: userAccNumber),
+                                controller: TextEditingController(
+                                    text: beneficiary_account_name),
                                 onChanged: (value) {
-                                  userAccNumber = value;
+                                  sb_beneficiary_update
+                                      .beneficiary_account_name = value;
+                                },
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter name';
+                                  }
+                                  return null;
                                 },
                                 style: TextStyle(color: Colors.black),
                                 decoration: InputDecoration(
-                                  prefixIcon:
-                                      Image.asset("icons/accountnumber.png"),
+                                  prefixIcon: Image.asset("icons/idtype.png"),
                                   labelText: "Beneficiary Account Name",
                                   labelStyle: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w500,
@@ -131,11 +158,13 @@ class _EditSameBankBeneficiaryState extends State<EditSameBankBeneficiary> {
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
-                                controller:
-                                    TextEditingController(text: userAccNumber),
+                                controller: TextEditingController(
+                                    text: beneficiary_account_number),
                                 onChanged: (value) {
-                                  userAccNumber = value;
+                                  sb_beneficiary_update
+                                      .beneficiary_account_number = value;
                                 },
+                                keyboardType: TextInputType.number,
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return 'Please enter account number';
@@ -186,10 +215,11 @@ class _EditSameBankBeneficiaryState extends State<EditSameBankBeneficiary> {
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
-                                controller:
-                                    TextEditingController(text: userEmail),
+                                controller: TextEditingController(
+                                    text: beneficiary_email),
                                 onChanged: (value) {
-                                  userEmail = value;
+                                  sb_beneficiary_update.beneficiary_email =
+                                      value;
                                 },
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -243,14 +273,18 @@ class _EditSameBankBeneficiaryState extends State<EditSameBankBeneficiary> {
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
-                                controller:
-                                    TextEditingController(text: userPhone),
+                                controller: TextEditingController(
+                                    text: beneficiary_mobile),
                                 onChanged: (value) {
-                                  userPhone = value;
+                                  sb_beneficiary_update.beneficiary_mobile =
+                                      value;
                                 },
+                                keyboardType: TextInputType.number,
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return 'Please enter contact number';
+                                    return 'Please enter mobile number';
+                                  } else if (value.length != 10) {
+                                    return 'Please enter valid mobile number';
                                   }
                                   return null;
                                 },
@@ -294,7 +328,7 @@ class _EditSameBankBeneficiaryState extends State<EditSameBankBeneficiary> {
                             ),
                             Padding(
                               padding:
-                                  const EdgeInsets.fromLTRB(10, 20, 10, 20),
+                                  const EdgeInsets.fromLTRB(16, 20, 16, 20),
                               child: Container(
                                 height: 60,
                                 width: 400,
@@ -305,12 +339,13 @@ class _EditSameBankBeneficiaryState extends State<EditSameBankBeneficiary> {
                                             BorderRadius.circular(30.0)),
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
+                                        save();
                                       } else {
                                         print("no");
                                       }
                                     },
                                     child: Text(
-                                      "Sign Up",
+                                      "Edit Inventry",
                                       style: GoogleFonts.workSans(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 24,
@@ -328,3 +363,5 @@ class _EditSameBankBeneficiaryState extends State<EditSameBankBeneficiary> {
     );
   }
 }
+
+mixin _id {}

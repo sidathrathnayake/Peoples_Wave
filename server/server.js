@@ -49,5 +49,7 @@ const BeneficiaryInterBank = require('./routes/Beneficiary_Inter_Bank.route');
 
 app.use("/transfer" ,OneTimeTransfer);
 app.use("/inter-bank",BeneficiaryInterBank);
+
+/*Yathushan*/ 
 const fav_bill = require("./routes/fav_bill_route");
 app.use("/bill",fav_bill);

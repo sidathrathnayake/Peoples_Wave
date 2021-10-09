@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile/dashboard.dart';
 import 'package:mobile/same-bank-transaction/sb_beneficiary.dart';
+import 'package:mobile/same-bank-transaction/wel_page.dart';
 import 'package:mobile/signin.dart';
 
 class AddSameBankBeneficiary extends StatefulWidget {
@@ -19,6 +20,7 @@ class AddSameBankBeneficiary extends StatefulWidget {
 
 class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController beneficiary_account_name = TextEditingController();
   // List<String> AccType = ['YES', 'Jana Jaya', 'Vanitha Vasana'];
   // String? selectAccType;
 
@@ -39,10 +41,11 @@ class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
         'account_mobile': '0776572518',
       }),
     );
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => Dashboard()),
-    );
+    // Navigator.push(
+    //   context,
+    //   // MaterialPageRoute(builder: (context) => Dashboard()),
+    //   //MaterialPageRoute(builder: (context) => WelcomePage(beneficiary_account_name: beneficiary_account_name.text)),
+    // );
   }
 
   Sb_Beneficiary sb_beneficiary = Sb_Beneficiary("", "", "", "", "");

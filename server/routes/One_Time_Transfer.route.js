@@ -17,7 +17,7 @@ router.get('/get-otp', async (req, res) => {
         client.messages.create({
             body: `One Time Password to authorize your action ${otp}`,
             from: myPhone,
-            to: req.params.number || '+94767185502'
+            to: req.params.number || '+94776572518'
         }).then(message => {
             const expire = moment(message.dateCreated).add(5,'minutes');
             let otpData = {
