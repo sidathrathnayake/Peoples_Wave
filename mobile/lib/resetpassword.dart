@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile/dashboard.dart';
+import 'package:mobile/service_user.dart';
+import 'package:mobile/verify_login.dart';
 
 class Resetpassword extends StatefulWidget {
   const Resetpassword({Key? key}) : super(key: key);
@@ -87,6 +91,7 @@ class _ResetpasswordState extends State<Resetpassword> {
                                   }
                                   return null;
                                 },
+                                obscureText: true,
                                 style: TextStyle(color: Colors.black),
                                 decoration: InputDecoration(
                                   prefixIcon: Image.asset("icons/password.png"),
@@ -139,6 +144,7 @@ class _ResetpasswordState extends State<Resetpassword> {
                                   }
                                   return null;
                                 },
+                                obscureText: true,
                                 style: TextStyle(color: Colors.black),
                                 decoration: InputDecoration(
                                   prefixIcon:
@@ -188,10 +194,38 @@ class _ResetpasswordState extends State<Resetpassword> {
                                         borderRadius:
                                             BorderRadius.circular(30.0)),
                                     onPressed: () {
-                                      if (_formKey.currentState!.validate()) {
-                                        print("yes");
+                                       if (_formKey.currentState!.validate()) {
+                                      Service()
+                                            .resetpassword(userPassword, userConfirmPassword)
+                                            .then((val) async {
+                                          if (val.data['success']) {
+                                            Service().otpsms(userPhone);
+                                            Fluttertoast.showToast(
+                                                msg: "Authenticated",
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.BOTTOM,
+                                                timeInSecForIosWeb: 1,
+                                                backgroundColor: Colors.green,
+                                                textColor: Colors.white,
+                                                fontSize: 16.0);
+                                            Navigator.pushReplacement(
+                                                context,
+                                                new MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Dashboard()));
+                                          } else {
+                                            Fluttertoast.showToast(
+                                                msg: "Error!",
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.BOTTOM,
+                                                timeInSecForIosWeb: 1,
+                                                backgroundColor: Colors.red,
+                                                textColor: Colors.white,
+                                                fontSize: 16.0);
+                                          }
+                                        });
                                       } else {
-                                        print("no");
+                                        print("Error");
                                       }
                                     },
                                     child: Text(

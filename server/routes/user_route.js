@@ -1,3 +1,4 @@
+require('dotenv').config({path: "./config.env"});
 const express = require("express");
 const router = express.Router();
 const crypto = require("crypto");
@@ -6,6 +7,13 @@ const Error = require("../utils/error_response");
 const sendEmail = require("../utils/send_email");
 const { getPrivateData } = require("../middleware/private_error");
 const { protect } = require("../middleware/user_protect");
+
+const accountsid = process.env.ACCOUNT_SID;
+const authToken = process.env.AUTH_TOKEN;
+const client = require('twilio')(accountsid, authToken);
+
+const serviceID =process.env.SERVICE_ID;
+
 
 //Protecion
 router.get("/user", protect, getPrivateData);
@@ -33,14 +41,7 @@ router.post("/user/userregister", async (req, res, next) => {
       userPassword,
     });
 
-    user.save((err) =>{
-      if(err){
-        return next(new Error('Something went wrong please try again later!', 400));
-      }
-      return res.status(201).json({
-        success: [true,'Registered successfully']
-      });
-    });
+    user.save();
   } catch (error) {
     next(error);
   }
@@ -48,10 +49,13 @@ router.post("/user/userregister", async (req, res, next) => {
 
 //Login
 router.post("/user/userlogin", async (req, res, next) => {
-  const { userEmail, userPassword } = req.body;
 
-  if (!userEmail || !userPassword) {
-    return next(new Error("Please provide an Email and Password...!", 400));
+  const { userEmail, userPassword, userPhone } = req.body;
+
+
+
+  if (!userEmail || !userPassword || !userPhone) {
+    return next(new Error("Please provide an Email , Contact and Password...!", 400));
   }
 
   try {
@@ -60,60 +64,85 @@ router.post("/user/userlogin", async (req, res, next) => {
     if (!user) {
       return next(new Error("Invalid credentials...!", 401));
     }
-
     const isMatch = await user.matchPasswords(userPassword);
 
     if (!isMatch) {
       return next(new Error("Invalid Password...!", 401));
     }
-
+    
     sendToken(user, 200, res);
+
+
+
   } catch (error) {
     next(error);
   }
 });
 
-//Forgot Password
-router.post("/user/userforgotpassword", async (req, res, next) => {
+//Send OTP SMS
+router.post("/user/otpsms", async (req, res, next) => {
+
+  const {userPhone} = req.body;
+  
+  client.verify.services(serviceID)
+             .verifications
+             .create({to: "+94" + userPhone, channel: 'sms'})
+             .then(verification => {
+              return res.status(200).send({verification});
+             })
+             .catch((error) => {
+              return res.status(400).send({error});
+             });
+
+ 
+});
+
+//Verify otp sms
+router.post("/user/verifyotpsms", async (req, res, next) => {
+
+  const {userPhone , otp} = req.body;
+  try {
+    const user = await userModel.findOne({ userPhone });
+
+    if (!user) {
+      return next(new Error("No such a phone number", 401));
+    }
+  else {
+    return client.verify.services(serviceID)
+    .verificationChecks
+    .create({to: "+94" + userPhone, code: otp})
+    .then(verification_check =>  {
+      return res.status(200).send({verification_check});
+     })
+     .catch((error) => {
+      return res.status(400).send({error});
+     });
+  }} catch (error) {
+    next(error);
+  }
+
+ 
+});
+
+
+
+
+//Forgot Password verify
+router.post("/user/forgotpassword", async (req, res, next) => {
   const { userEmail } = req.body;
 
   try {
     const user = await userModel.findOne({ userEmail });
 
-    if (!user) {
+    if(!user){
       return next(new Error("Email could not be sent to this email.", 404));
-    }
-    const resetToken = user.getResetPasswordToken();
-
-    await user.save();
-
-    const resetURL = `http://localhost:3000/userresetpassword/${resetToken}`;
-
-    const message = `
-            <h1>You have requested to reset your password.</h1>
-            <p>Please go to the below link to reset your password.</p>
-            <a href=${resetURL} clicktracking=off>${resetURL}</a>
-        `;
-
-    try {
-      await sendEmail({
-        to: user.userEmail,
-        subject: "Reset password request",
-        text: message,
-      });
-
-      res.status(200).json({
-        success: true,
-        data: "Email sent",
-      });
-    } catch (error) {
-      user.resetPasswordToken = undefined;
-      user.resetPasswordExpire = undefined;
-
-      await user.save();
-
-      return next(new Error("Email could not be send.!", 500));
-    }
+   }
+   else{
+     return res.status(200).json({
+          success: true,
+          data: "Email is there",
+        });
+   }
   } catch (error) {
     next(error);
   }
@@ -198,19 +227,6 @@ router.put("/user/updateuser/:id", (req, res, next) => {
       });
     }
   );
-});
-
-//Delete
-router.delete("/user/deleteuser/:id", (req, res, next) => {
-  userModel.findByIdAndRemove(req.params.id).exec((err, deleteuser) => {
-    if (err) {
-      return next(new Error("Can not delete the data", 400));
-    }
-    return res.status(200).json({
-      success: [true, " Deleted successfully!"],
-      deleteuser,
-    });
-  });
 });
 
 //Token send to the model class

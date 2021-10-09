@@ -3,6 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile/service_user.dart';
+import 'package:mobile/signin.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'menu.dart';
 import 'menu_card.dart';
@@ -26,21 +29,28 @@ final slideImages = [
 var scaffoldKey = GlobalKey<ScaffoldState>();
 
 class _DashboardState extends State<Dashboard> {
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
+    Service().asyncFunc();
+   
     return Scaffold(
         key: scaffoldKey,
         drawer: NavigationalDrawer(),
         appBar: AppBar(
+          backgroundColor: Colors.amber,
           elevation: 0,
-          title: Text('Dashboard',
-          style: TextStyle(
-            color: Colors.white
-          ),),
+          title: Text(
+            'Dashboard',
+            style: TextStyle(color: Colors.white,
+            fontWeight: FontWeight.bold),
+          ),
           centerTitle: true,
           leading: IconButton(
-            icon: Image.asset("images/pagetop.png"),
+            icon: Image.asset("icons/menu.png"),
+            color: Colors.white,
             onPressed: () {
               scaffoldKey.currentState!.openDrawer();
             },
@@ -80,7 +90,9 @@ class _DashboardState extends State<Dashboard> {
                             topRight: Radius.circular(10),
                           )),
                     ),
-                    SizedBox(),
+                    SizedBox(
+                      height: 70,
+                    ),
                     ListView.builder(
                         itemCount: menuDatas.length,
                         itemBuilder: (context, index) => MenuCard(
@@ -95,7 +107,7 @@ class _DashboardState extends State<Dashboard> {
   }
 
   buildImage(String slideImage, int index) => Container(
-        margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         width: double.infinity,
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
         child: Image.asset(

@@ -7,7 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile/dashboard.dart';
-import 'package:mobile/service_register.dart';
+import 'package:mobile/service_user.dart';
 import 'package:mobile/signin.dart';
 import 'forgotpassword.dart';
 
@@ -84,7 +84,8 @@ class _SignupState extends State<Signup> {
                                   child: Image.asset("images/signup.png")),
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 16.0),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -110,7 +111,7 @@ class _SignupState extends State<Signup> {
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: DropdownButtonFormField(
-                                decoration:InputDecoration(
+                                decoration: InputDecoration(
                                   prefixIcon:
                                       Image.asset('icons/accounttype.png'),
                                   hintTextDirection: null,
@@ -143,13 +144,11 @@ class _SignupState extends State<Signup> {
                                   ),
                                 ),
                                 isExpanded: true,
-                                
                                 dropdownColor: Colors.amber.shade50,
                                 hint: Text('Account Type',
                                     textDirection: null,
                                     style: GoogleFonts.montserrat(
-                                        fontSize: 16,
-                                        color: textfieldcolor)),
+                                        fontSize: 16, color: textfieldcolor)),
                                 value: selectAccType,
                                 onChanged: (newValue) {
                                   setState(() {
@@ -197,8 +196,7 @@ class _SignupState extends State<Signup> {
                                       Image.asset("icons/accountnumber.png"),
                                   labelText: "Account number",
                                   labelStyle: GoogleFonts.montserrat(
-                                      fontSize: 16,
-                                      color: textfieldcolor),
+                                      fontSize: 16, color: textfieldcolor),
                                   fillColor: Colors.black12,
                                   filled: true,
                                   focusedBorder: OutlineInputBorder(
@@ -268,8 +266,7 @@ class _SignupState extends State<Signup> {
                                 hint: Text('Identity Type',
                                     textDirection: null,
                                     style: GoogleFonts.montserrat(
-                                        fontSize: 16,
-                                        color: textfieldcolor)),
+                                        fontSize: 16, color: textfieldcolor)),
                                 value: selectIdType,
                                 onChanged: (newValue) {
                                   setState(() {
@@ -316,8 +313,7 @@ class _SignupState extends State<Signup> {
                                   prefixIcon: Image.asset("icons/idnumber.png"),
                                   labelText: "ID number",
                                   labelStyle: GoogleFonts.montserrat(
-                                      fontSize: 16,
-                                      color: textfieldcolor),
+                                      fontSize: 16, color: textfieldcolor),
                                   fillColor: Colors.black12,
                                   filled: true,
                                   focusedBorder: OutlineInputBorder(
@@ -372,8 +368,7 @@ class _SignupState extends State<Signup> {
                                   prefixIcon: Image.asset("icons/email.png"),
                                   labelText: "Email",
                                   labelStyle: GoogleFonts.montserrat(
-                                      fontSize: 16,
-                                      color: textfieldcolor),
+                                      fontSize: 16, color: textfieldcolor),
                                   fillColor: Colors.black12,
                                   filled: true,
                                   focusedBorder: OutlineInputBorder(
@@ -416,6 +411,9 @@ class _SignupState extends State<Signup> {
                                   if (value!.isEmpty) {
                                     return 'Please enter contact number';
                                   }
+                                  if (value.length != 9) {
+                                    return 'Please enter contact number with only 10 digit() remove first 0';
+                                  }
                                   return null;
                                 },
                                 style: TextStyle(color: Colors.black),
@@ -423,8 +421,7 @@ class _SignupState extends State<Signup> {
                                   prefixIcon: Image.asset("icons/phone.png"),
                                   labelText: "Contact number",
                                   labelStyle: GoogleFonts.montserrat(
-                                      fontSize: 16,
-                                      color: textfieldcolor),
+                                      fontSize: 16, color: textfieldcolor),
                                   fillColor: Colors.black12,
                                   filled: true,
                                   focusedBorder: OutlineInputBorder(
@@ -466,19 +463,18 @@ class _SignupState extends State<Signup> {
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return 'Please enter password';
-                                  }
-                                  else if(value.length < 6){
+                                  } else if (value.length < 6) {
                                     return 'Password must contain atleast 6 characters';
                                   }
                                   return null;
                                 },
+                                obscureText: true,
                                 style: TextStyle(color: Colors.black),
                                 decoration: InputDecoration(
                                   prefixIcon: Image.asset("icons/password.png"),
                                   labelText: "Password",
                                   labelStyle: GoogleFonts.montserrat(
-                                      fontSize: 16,
-                                      color: textfieldcolor),
+                                      fontSize: 16, color: textfieldcolor),
                                   fillColor: Colors.black12,
                                   filled: true,
                                   focusedBorder: OutlineInputBorder(
@@ -520,21 +516,21 @@ class _SignupState extends State<Signup> {
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return 'Please confirm password';
-                                  }
-                                  else if(userPassword != userConfirmPassword){
+                                  } else if (userPassword !=
+                                      userConfirmPassword) {
                                     return 'Passwords are not matching. Please try again';
                                   }
-                                  
+
                                   return null;
                                 },
+                                obscureText: true,
                                 style: TextStyle(color: Colors.black),
                                 decoration: InputDecoration(
                                   prefixIcon:
                                       Image.asset("icons/confirmpassword.png"),
                                   labelText: "Confirm Password",
                                   labelStyle: GoogleFonts.montserrat(
-                                      fontSize: 16,
-                                      color: textfieldcolor),
+                                      fontSize: 16, color: textfieldcolor),
                                   fillColor: Colors.black12,
                                   filled: true,
                                   focusedBorder: OutlineInputBorder(
@@ -591,32 +587,32 @@ class _SignupState extends State<Signup> {
                                             .then((val) {
                                           if (val.data['success']) {
                                             Fluttertoast.showToast(
-                                                msg: "Authenticated",
+                                                msg: "Successfully Registered!",
                                                 toastLength: Toast.LENGTH_SHORT,
-                                                gravity: ToastGravity.CENTER,
-                                                timeInSecForIosWeb: 4,
-                                                backgroundColor: Colors.red,
+                                                gravity: ToastGravity.BOTTOM,
+                                                timeInSecForIosWeb: 1,
+                                                backgroundColor: Colors.green,
                                                 textColor: Colors.white,
                                                 fontSize: 16.0);
                                             Navigator.push(
                                                 context,
                                                 new MaterialPageRoute(
                                                     builder: (context) =>
-                                                        Dashboard()));
+                                                        Signin()));
                                           } else {
                                             Fluttertoast.showToast(
                                                 msg:
-                                                    "Invalid email or password!",
+                                                    "Something went wrong.Please try again!",
                                                 toastLength: Toast.LENGTH_SHORT,
-                                                gravity: ToastGravity.CENTER,
-                                                timeInSecForIosWeb: 4,
+                                                gravity: ToastGravity.BOTTOM,
+                                                timeInSecForIosWeb: 1,
                                                 backgroundColor: Colors.red,
                                                 textColor: Colors.white,
                                                 fontSize: 16.0);
                                           }
                                         });
                                       } else {
-                                        print("Email or Password ");
+                                        print("Error");
                                       }
                                     },
                                     child: Text(

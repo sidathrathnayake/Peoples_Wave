@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile/resetpassword.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'service_user.dart';
 
 class VerifyFogotpassword extends StatefulWidget {
   const VerifyFogotpassword({Key? key}) : super(key: key);
@@ -8,7 +13,7 @@ class VerifyFogotpassword extends StatefulWidget {
   _VerifyFogotpasswordState createState() => _VerifyFogotpasswordState();
 }
 
-var otp;
+var otp , userEmail;
 Color textfieldcolor = Colors.black;
 
 class _VerifyFogotpasswordState extends State<VerifyFogotpassword> {
@@ -129,9 +134,41 @@ class _VerifyFogotpasswordState extends State<VerifyFogotpassword> {
                                             BorderRadius.circular(30.0)),
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
-                                        print("yes");
+                                        Service()
+                                            .emailotpverify(userEmail,otp)()
+                                            .then((val) async {
+                                          if (val.data['success']) {
+
+                                            SharedPreferences prefs =
+                                                await SharedPreferences
+                                                    .getInstance();
+                                            Fluttertoast.showToast(
+                                                msg: "Verified",
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.BOTTOM,
+                                                timeInSecForIosWeb: 1,
+                                                backgroundColor: Colors.green,
+                                                textColor: Colors.white,
+                                                fontSize: 16.0);
+                                            Navigator.pushReplacement(
+                                                context,
+                                                new MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Resetpassword()));
+                                          } else {
+                                            Fluttertoast.showToast(
+                                                msg:
+                                                    "Invalid email!",
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.BOTTOM,
+                                                timeInSecForIosWeb: 1,
+                                                backgroundColor: Colors.red,
+                                                textColor: Colors.white,
+                                                fontSize: 16.0);
+                                          }
+                                        });
                                       } else {
-                                        print("no");
+                                        print("Error ");
                                       }
                                     },
                                     child: Text(
@@ -141,31 +178,6 @@ class _VerifyFogotpasswordState extends State<VerifyFogotpassword> {
                                           fontSize: 24,
                                           color: Colors.white),
                                     )),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: 16.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      // Navigator.push(
-                                      //     context,
-                                      //     new MaterialPageRoute(
-                                      //         builder: (context) => Signup()));
-                                    },
-                                    child: Text(
-                                      "Resend again ?",
-                                      style: GoogleFonts.montserrat(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 14,
-                                          color: Colors.amber.shade600),
-                                    ),
-                                  )
-                                ],
                               ),
                             ),
                           ],
