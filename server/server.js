@@ -35,3 +35,21 @@ process.on("unhandledRejection", (err, promise) => {
     console.log(`Logged Error: ${err}`);
     server.close(() => process.exit(1));
 });
+
+/*Viraj*/ 
+const one_time_transaction = require("./routes/oneTimeTransaction_route");
+const same_bank_beneficiary = require("./routes/beneficiarySameBank_route");
+
+app.use("/one-time-transaction",one_time_transaction);
+app.use("/same-bank-beneficiary",same_bank_beneficiary);
+
+/** Dhananjaya */
+const OneTimeTransfer = require('./routes/One_Time_Transfer.route');
+const BeneficiaryInterBank = require('./routes/Beneficiary_Inter_Bank.route');
+
+app.use("/transfer" ,OneTimeTransfer);
+app.use("/inter-bank",BeneficiaryInterBank);
+
+/*Yathushan*/ 
+const fav_bill = require("./routes/fav_bill_route");
+app.use("/bill",fav_bill);
