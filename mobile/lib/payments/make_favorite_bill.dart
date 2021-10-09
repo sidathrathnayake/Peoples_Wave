@@ -10,6 +10,7 @@ import 'package:mobile/dashboard.dart';
 import 'package:mobile/service_register.dart';
 import 'package:mobile/signin.dart';
 
+// AddFavoriteBillPayment
 class AddFavoriteBill extends StatefulWidget {
   const AddFavoriteBill({Key? key}) : super(key: key);
 

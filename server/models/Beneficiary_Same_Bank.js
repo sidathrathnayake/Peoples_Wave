@@ -18,6 +18,10 @@ const same_bank_beneficiary = new Schema ({
         type : String,
         required : true,
     },
+    account_mobile : {
+        type : String,
+        required : true,
+    },
 })
 
 const create_table_beneficiary = mongoose.model("same_bank_beneficiary", same_bank_beneficiary);
