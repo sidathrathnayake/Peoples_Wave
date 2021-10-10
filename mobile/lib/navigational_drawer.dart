@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/dashboard.dart';
+import 'package:mobile/service_user.dart';
 import 'package:mobile/signin.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+
 
 class NavigationalDrawer extends StatelessWidget {
   const NavigationalDrawer({Key? key}) : super(key: key);
@@ -159,9 +163,7 @@ class NavigationalDrawer extends StatelessWidget {
         ));
         break;
       case 7:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => Signin(),
-        ));
+        Service().signout();
         break;
     }
   }

@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:localstorage/localstorage.dart';
+import 'package:mobile/dashboard.dart';
+import 'package:mobile/service_user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class VerifyLogin extends StatefulWidget {
   const VerifyLogin({Key? key}) : super(key: key);
@@ -8,7 +13,7 @@ class VerifyLogin extends StatefulWidget {
   _VerifyLoginState createState() => _VerifyLoginState();
 }
 
-var otp;
+var otp, userPhone;
 Color textfieldcolor = Colors.black;
 
 class _VerifyLoginState extends State<VerifyLogin> {
@@ -72,23 +77,19 @@ class _VerifyLoginState extends State<VerifyLogin> {
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
-                                controller:
-                                    TextEditingController(text: otp),
+                                controller: TextEditingController(text: otp),
                                 onChanged: (value) {
                                   otp = value;
                                 },
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return 'Please enter the otp we sent you';
-                                  } else if(value.length != 6){
+                                  } else if (value.length != 6) {
                                     return 'Wrong OTP number';
                                   }
-                                    return null;
-                                  
+                                  return null;
                                 },
-
                                 style: TextStyle(color: Colors.black),
-
                                 decoration: InputDecoration(
                                   fillColor: Colors.black12,
                                   filled: true,
@@ -133,9 +134,37 @@ class _VerifyLoginState extends State<VerifyLogin> {
                                             BorderRadius.circular(30.0)),
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
-                                        print("yes");
+                                        
+                                        Service().verifyotpsms(otp).then((val) async {
+                                          if (val.data['success']) {
+                                            
+                                            Fluttertoast.showToast(
+                                                msg: "Authenticated",
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.BOTTOM,
+                                                timeInSecForIosWeb: 1,
+                                                backgroundColor: Colors.green,
+                                                textColor: Colors.white,
+                                                fontSize: 16.0);
+                                            Navigator.pushReplacement(
+                                                context,
+                                                new MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Dashboard()));
+                                          } else {
+                                            Fluttertoast.showToast(
+                                                msg:
+                                                    "Invalid OTP!",
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.BOTTOM,
+                                                timeInSecForIosWeb: 1,
+                                                backgroundColor: Colors.red,
+                                                textColor: Colors.white,
+                                                fontSize: 16.0);
+                                          }
+                                        });
                                       } else {
-                                        print("no");
+                                        print("Email or Password ");
                                       }
                                     },
                                     child: Text(
