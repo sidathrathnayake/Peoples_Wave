@@ -7,25 +7,23 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile/dashboard.dart';
-import 'package:mobile/payments/favorite_bill_model.dart';
-import 'package:mobile/payments/pay_bill_otp.dart';
 import 'package:mobile/service_user.dart';
 import 'package:mobile/signin.dart';
 
-class OnetimePayment extends StatefulWidget {
-  const OnetimePayment({Key? key}) : super(key: key);
-
-  @override
-  _OnetimePaymentState createState() => _OnetimePaymentState();
-}
-
-class _OnetimePaymentState extends State<OnetimePayment> {
+class FavouriteBill_Payment extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
+  String serviceProvider;
+  String payeeDescription;
+  String referenceNumber;
 
-  TextEditingController accountNumber = TextEditingController();
-  TextEditingController amount = TextEditingController();
-  TextEditingController referenceNumber = TextEditingController();
-  TextEditingController serviceProvider = TextEditingController();
+  late BuildContext context;
+
+  FavouriteBill_Payment({
+    Key? key,
+    required this.serviceProvider,
+    required this.payeeDescription,
+    required this.referenceNumber,
+  }) : super(key: key);
 
   var userAccType,
       userAccNumber,
@@ -40,8 +38,6 @@ class _OnetimePaymentState extends State<OnetimePayment> {
   String? selectBillType;
 
   Color textfieldcolor = Colors.black;
-
-  Favorite_Bill_Trasfer favorite_bill_trasfer = Favorite_Bill_Trasfer ("","","","","");
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +54,7 @@ class _OnetimePaymentState extends State<OnetimePayment> {
       body: SingleChildScrollView(
         child: Container(
           color: Colors.amber,
-          height: size.height * 1.8,
+          height: size.height,
           child: Column(
             children: [
               Container(
@@ -91,9 +87,10 @@ class _OnetimePaymentState extends State<OnetimePayment> {
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
-                                controller:accountNumber,
+                                controller:
+                                    TextEditingController(text: userAccNumber),
                                 onChanged: (value) {
-                                  favorite_bill_trasfer.accountNumber = value;
+                                  userAccNumber = value;
                                 },
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -180,11 +177,9 @@ class _OnetimePaymentState extends State<OnetimePayment> {
                                     textDirection: null,
                                     style: GoogleFonts.montserrat(
                                         fontSize: 16, color: textfieldcolor)),
-                                value: selectBillType,
+                                value: serviceProvider,
                                 onChanged: (newValue) {
-                                  setState(() {
-                                    favorite_bill_trasfer.serviceProvider = newValue as String;
-                                  });
+                                    selectBillType = newValue as String?;
                                 },
                                 validator: (value) {
                                   if (value == null) {
@@ -207,9 +202,10 @@ class _OnetimePaymentState extends State<OnetimePayment> {
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
-                                controller:referenceNumber,
+                                controller:
+                                    TextEditingController(text: referenceNumber),
                                 onChanged: (value) {
-                                  favorite_bill_trasfer.referenceNumber = value;
+                                  referenceNumber = value;
                                 },
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -256,9 +252,10 @@ class _OnetimePaymentState extends State<OnetimePayment> {
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
-                                controller:amount,
+                                controller:
+                                    TextEditingController(text: userPhone),
                                 onChanged: (value) {
-                                  favorite_bill_trasfer.amount = value;
+                                  userPhone = value;
                                 },
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -314,19 +311,47 @@ class _OnetimePaymentState extends State<OnetimePayment> {
                                         borderRadius:
                                             BorderRadius.circular(30.0)),
                                     onPressed: () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                PayBill_OTP(
-                                                    serviceProvider:
-                                                        favorite_bill_trasfer.serviceProvider,
-                                                    amount:
-                                                        amount.text,
-                                                    referenceNumber:
-                                                        referenceNumber.text,
-                                                    accountNumber:
-                                                        accountNumber.text)),
-                                      );
+                                      if (_formKey.currentState!.validate()) {
+                                        Service()
+                                            .register(
+                                                userAccType,
+                                                userAccNumber,
+                                                userIdType,
+                                                userIdNumber,
+                                                userEmail,
+                                                userPhone,
+                                                userPassword,
+                                                userConfirmPassword)
+                                            .then((val) {
+                                          if (val.data['success']) {
+                                            Fluttertoast.showToast(
+                                                msg: "Authenticated",
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.CENTER,
+                                                timeInSecForIosWeb: 4,
+                                                backgroundColor: Colors.red,
+                                                textColor: Colors.white,
+                                                fontSize: 16.0);
+                                            Navigator.push(
+                                                context,
+                                                new MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Dashboard()));
+                                          } else {
+                                            Fluttertoast.showToast(
+                                                msg:
+                                                    "Invalid email or password!",
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.CENTER,
+                                                timeInSecForIosWeb: 4,
+                                                backgroundColor: Colors.red,
+                                                textColor: Colors.white,
+                                                fontSize: 16.0);
+                                          }
+                                        });
+                                      } else {
+                                        print("Email or Password ");
+                                      }
                                     },
                                     child: Text(
                                       "Next",

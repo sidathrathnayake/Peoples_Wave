@@ -20,7 +20,7 @@ class AddFavoriteBillPayment extends StatefulWidget {
 class _AddFavoriteBillPaymentState extends State<AddFavoriteBillPayment> {
   final _formKey = GlobalKey<FormState>();
   var userAccType;
-  List<String> BillType = ['Dialog Television', 'Dialog Mobile', 'Dialog Broadband'];
+  List<String> BillType = ['Dialog', 'Mobitel', 'Ceylon Electricty Board', 'Peoples Leasing','National Water Supply and Drainage Board','Hutch'];
   String? selectBillType;
 
   // List<String> IdType = ['National ID Number', 'Passport'];
@@ -56,7 +56,7 @@ class _AddFavoriteBillPaymentState extends State<AddFavoriteBillPayment> {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          "Add Favorite Beneficiary",
+          "Add Favorite Bill",
         ),
       ),
       body: SingleChildScrollView(
@@ -161,28 +161,11 @@ class _AddFavoriteBillPaymentState extends State<AddFavoriteBillPayment> {
                             // ),
                             Padding(
                               padding: const EdgeInsets.all(16.0),
-                              child: TextFormField(
-                                controller: TextEditingController(
-                                    text: favorite_bill_model
-                                        .serviceProvider),
-                                onChanged: (value) {
-                                  favorite_bill_model.serviceProvider =
-                                      value;
-                                },
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please enter name';
-                                  }
-                                  return null;
-                                },
-                                style: TextStyle(color: Colors.black),
+                              child: DropdownButtonFormField(
                                 decoration: InputDecoration(
-                                  prefixIcon: Image.asset("icons/idtype.png"),
-                                  labelText: "Payee Description",
-                                  labelStyle: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18,
-                                      color: textfieldcolor),
+                                  prefixIcon:
+                                      Image.asset('icons/service.png'),
+                                  hintTextDirection: null,
                                   fillColor: Colors.amber.shade50,
                                   filled: true,
                                   focusedBorder: OutlineInputBorder(
@@ -211,6 +194,32 @@ class _AddFavoriteBillPaymentState extends State<AddFavoriteBillPayment> {
                                     ),
                                   ),
                                 ),
+                                isExpanded: true,
+                                dropdownColor: Colors.amber.shade50,
+                                hint: Text('Service Provider',
+                                    textDirection: null,
+                                    style: GoogleFonts.montserrat(
+                                        fontSize: 18,fontWeight: FontWeight.w500, color: textfieldcolor)),
+                                value: selectBillType,
+                                onChanged: (newValue) {
+                                    favorite_bill_model.serviceProvider = newValue as String;
+                                },
+                                validator: (value) {
+                                  if (value == null) {
+                                    return 'Please select an service provider';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                items: BillType.map((billType) {
+                                  return DropdownMenuItem(
+                                    child: new Text(billType,
+                                        style: GoogleFonts.montserrat(
+                                            fontSize: 16,
+                                            color: textfieldcolor)),
+                                    value: billType,
+                                  );
+                                }).toList(),
                               ),
                             ),
                             Padding(
@@ -231,7 +240,7 @@ class _AddFavoriteBillPaymentState extends State<AddFavoriteBillPayment> {
                                 },
                                 style: TextStyle(color: Colors.black),
                                 decoration: InputDecoration(
-                                  prefixIcon: Image.asset("icons/idtype.png"),
+                                  prefixIcon: Image.asset("icons/description.png"),
                                   labelText: "Payee Description",
                                   labelStyle: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w500,
@@ -281,15 +290,12 @@ class _AddFavoriteBillPaymentState extends State<AddFavoriteBillPayment> {
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return 'Please enter reference number';
-                                  } else if (value.length != 10) {
-                                    return 'Please enter valid reference number';
                                   }
-                                  return null;
                                 },
                                 style: TextStyle(color: Colors.black),
                                 decoration: InputDecoration(
                                   prefixIcon:
-                                      Image.asset("icons/accountnumber.png"),
+                                      Image.asset("icons/refNo.png"),
                                   labelText: "Reference Number",
                                   labelStyle: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w500,
@@ -344,7 +350,7 @@ class _AddFavoriteBillPaymentState extends State<AddFavoriteBillPayment> {
                                       }
                                     },
                                     child: Text(
-                                      "Add Inventry",
+                                      "Add Favourite Bill",
                                       style: GoogleFonts.workSans(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 24,

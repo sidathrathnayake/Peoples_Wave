@@ -19,7 +19,7 @@ router.post("/add", async(req,res) => {
     });
     await newBill.save()
         .then(data => {
-            res.status(200).send({ data: data });
+            res.status(200).json(data);
         })
         .catch(error => {
             res.status(500).send({ error: error.message });
@@ -30,7 +30,7 @@ router.post("/add", async(req,res) => {
 router.get("/view", async(req,res) => {
     await Bill.find()
     .then(data => {
-        res.status(200).send({ data: data });
+        res.status(200).json(data);
     })
     .catch(error => {
         res.status(500).send({ error: error.message });
@@ -42,7 +42,7 @@ router.get("/viewOne/:billId", async(req,res) => {
     if (req.params && req.params.billId) {
         await Bill.findOne({"billId":req.params.billId})
         .then(data => {
-            res.status(200).send({ data: data });
+            res.status(200).json(data);
         })
         .catch(error => {
             res.status(500).send({ error: error.message });
@@ -51,27 +51,36 @@ router.get("/viewOne/:billId", async(req,res) => {
 })
 
 /**Updating Favourite Bill Details */
-router.put("/update/:billId", (req,res) => {
-    Category.findOne({"billId":req.params.billId})
+router.put("/update/:billId", async(req,res) => {
+    await Bill.findOne({"billId":req.params.billId})
         .then((bill) => {
             bill.serviceProvider = req.body.serviceProvider;
             bill.payeeDescription = req.body.payeeDescription;
-            bill.referenceNumber = req.file.referenceNumber;
+            bill.referenceNumber = req.body.referenceNumber;
 
             bill
             .save()
-            .then(() => res.json("Bill Details Updated!"))
-            .catch((err) => res.status(400).json(`Error: ${err}`));
+            .then(() => {
+                res.status(200).send({status : "Favourite Bill Updated! ", bill})
+                console.log("Favourite Bill Updated! " + bill)
+            })
+            .catch((err) => 
+                res.status(400).send({status : "Favourite Bill Failed! ", bill})
+            );
+            
         })
-        .catch((err) => res.status(400).json(`Error: ${err}`));
+        .catch((err) => 
+            res.status(400).send({status : "Favourite Bill Failed! ", bill})
+        );
+        
 
 })
 
 /**Deleting Order */
 router.delete("/delete/:billId", (req,res) => {
-    OrderPayment.findOneAndDelete({"billId":req.params.billId})
+    Bill.findOneAndDelete({"billId":req.params.billId})
         .then(data => {
-            res.status(200).send({data:data});            
+            res.status(200).json(data);           
         })
         .catch((error) =>{ 
             res.status(500).send({error:error.message});
