@@ -4,27 +4,27 @@ const Schema = mongoose.Schema;
 const one_time_transaction = new Schema ({
     transaction_from : {
         type: String,
-        required : true,
+        required : false,
     },
     transaction_to : {
         type: String,
-        required : true,
+        required : false,
     },
     transaction_amount : {
-        type : Number,
-        required : true,
+        type : String,
+        required : false,
     },
     mobile_number : {
         type : String,
-        required : true,
+        required : false,
     },
     Remarks : {
         type : String,
-        required : true,
+        required : false,
     },
     transaction_date : {
         type : String,
-        required : true,
+        required : false,
     },
 })
 

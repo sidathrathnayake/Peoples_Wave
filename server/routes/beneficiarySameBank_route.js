@@ -96,4 +96,19 @@ router.route('/delete-one-beneficiary/:id').delete(async(req,res) => {
     }
 })
 
+router.route('/delete-one-beneficiary-name/:beneficiary_account_name').delete(async(req,res) => {
+    try {
+        let beneficiary_account_name = req.params.beneficiary_account_name;
+        const getbeneficiary_delete = await Beneficiary_Same_Bank
+            .findOneAndRemove({"beneficiary_account_name":beneficiary_account_name})
+            .then((delete_one_beneficiary) => {
+                res.status(200).send({status: "Favorite Beneficiary Deleted!", delete_one_beneficiary})
+                console.log("Favorite Beneficiary Deleted! " + delete_one_beneficiary)
+            })
+    } catch (error) {
+        res.status(400).json(`Error While Deleting This Favorite Beneficiary! : ${error}`)
+        console.log(`Error While Deleting This Favorite Beneficiary! : ${error}`)
+    }
+})
+
 module.exports = router;

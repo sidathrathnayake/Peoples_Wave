@@ -1,4 +1,5 @@
 // ignore: unused_import
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile/dashboard.dart';
+import 'package:mobile/same-bank-transaction/sb_transaction.dart';
 import 'package:mobile/signin.dart';
 
 class SameBankTransaction extends StatefulWidget {
@@ -18,23 +20,36 @@ class SameBankTransaction extends StatefulWidget {
 class _SameBankTransactionState extends State<SameBankTransaction> {
   final _formKey = GlobalKey<FormState>();
 
-  var userAccType,
-      userAccNumber,
-      userIdType,
-      userIdNumber,
-      userEmail,
-      userPhone,
-      userPassword,
-      userConfirmPassword;
+  Future save() async {
+    await http.post(
+      Uri.parse(
+          'http://localhost:5000/one-time-transaction/make-transaction'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'transaction_from': sb_transaction.transaction_from,
+        'transaction_to': sb_transaction.transaction_to,
+        'transaction_amount': sb_transaction.transaction_amount,
+        'mobile_number': sb_transaction.mobile_number,
+        'Remarks': sb_transaction.Remarks,
+      }),
+    );
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Dashboard()),
+      //MaterialPageRoute(builder: (context) => WelcomePage(beneficiary_account_name: beneficiary_account_name.text)),
+    );
+  }
 
   // List<String> AccType = ['YES', 'Jana Jaya', 'Vanitha Vasana'];
   // String? selectAccType;
-
   // List<String> IdType = ['National ID Number', 'Passport'];
   // String? selectIdType;
 
   Color textfieldcolor = Colors.black;
 
+  Sb_Transaction sb_transaction = Sb_Transaction("", "", "", "", "");
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -50,7 +65,7 @@ class _SameBankTransactionState extends State<SameBankTransaction> {
       body: SingleChildScrollView(
         child: Container(
           color: Colors.amber,
-          height: size.height * 1.8,
+          height: size.height * 1.2,
           child: Column(
             children: [
               Container(
@@ -78,16 +93,16 @@ class _SameBankTransactionState extends State<SameBankTransaction> {
                               child: SizedBox(
                                   height: size.height / 3,
                                   width: size.width,
-                                  child: Image.asset(
-                                      "images/sb_transaction.png")),
+                                  child:
+                                      Image.asset("images/sb_transaction.png")),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
-                                controller:
-                                    TextEditingController(text: userAccNumber),
+                                controller: TextEditingController(
+                                    text: sb_transaction.transaction_from),
                                 onChanged: (value) {
-                                  userAccNumber = value;
+                                  sb_transaction.transaction_from = value;
                                 },
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -101,7 +116,7 @@ class _SameBankTransactionState extends State<SameBankTransaction> {
                                 decoration: InputDecoration(
                                   prefixIcon:
                                       Image.asset("icons/accountnumber.png"),
-                                  labelText: "Pay From",
+                                  labelText: "Transaction From",
                                   labelStyle: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18,
@@ -139,10 +154,10 @@ class _SameBankTransactionState extends State<SameBankTransaction> {
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
-                                controller:
-                                    TextEditingController(text: userAccNumber),
+                                // controller: TextEditingController(
+                                //     text: sb_transaction.transaction_to),
                                 onChanged: (value) {
-                                  userAccNumber = value;
+                                  sb_transaction.transaction_to = value;
                                 },
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -156,7 +171,7 @@ class _SameBankTransactionState extends State<SameBankTransaction> {
                                 decoration: InputDecoration(
                                   prefixIcon:
                                       Image.asset("icons/accountnumber.png"),
-                                  labelText: "Pay To",
+                                  labelText: "Transaction To",
                                   labelStyle: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18,
@@ -194,22 +209,17 @@ class _SameBankTransactionState extends State<SameBankTransaction> {
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
-                                controller:
-                                    TextEditingController(text: userEmail),
+                                // controller: TextEditingController(
+                                //     text: sb_transaction.transaction_amount),
                                 onChanged: (value) {
-                                  userEmail = value;
+                                  sb_transaction.transaction_amount = value;
                                 },
-                                // validator: (value) {
-                                //   if (value!.isEmpty) {
-                                //     return 'Please enter Email';
-                                //   } else if (RegExp(
-                                //           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                //       .hasMatch(value)) {
-                                //     return null;
-                                //   } else {
-                                //     return 'Please enter valid email!';
-                                //   }
-                                // },
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter the transaction amount';
+                                  }
+                                  return null;
+                                },
                                 style: TextStyle(color: Colors.black),
                                 decoration: InputDecoration(
                                   prefixIcon: Image.asset("icons/email.png"),
@@ -251,14 +261,16 @@ class _SameBankTransactionState extends State<SameBankTransaction> {
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
-                                controller:
-                                    TextEditingController(text: userPhone),
+                                // controller: TextEditingController(
+                                //     text: sb_transaction.mobile_number),
                                 onChanged: (value) {
-                                  userPhone = value;
+                                  sb_transaction.mobile_number = value;
                                 },
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return 'Please enter contact number';
+                                    return 'Please enter phone number';
+                                  } else if (value.length != 10) {
+                                    return 'Please enter valid phone number';
                                   }
                                   return null;
                                 },
@@ -303,16 +315,10 @@ class _SameBankTransactionState extends State<SameBankTransaction> {
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
-                                controller:
-                                    TextEditingController(text: userPhone),
+                                // controller: TextEditingController(
+                                //     text: sb_transaction.Remarks),
                                 onChanged: (value) {
-                                  userPhone = value;
-                                },
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please enter remarks';
-                                  }
-                                  return null;
+                                  sb_transaction.Remarks = value;
                                 },
                                 style: TextStyle(color: Colors.black),
                                 decoration: InputDecoration(
@@ -365,12 +371,13 @@ class _SameBankTransactionState extends State<SameBankTransaction> {
                                             BorderRadius.circular(30.0)),
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
+                                        save();
                                       } else {
                                         print("no");
                                       }
                                     },
                                     child: Text(
-                                      "Sign Up",
+                                      "Make Transaction",
                                       style: GoogleFonts.workSans(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 24,

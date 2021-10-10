@@ -6,7 +6,7 @@ router.post('/make-transaction', (req,res) => {
     const newTransaction = new One_Time_Transaction ({
         transaction_from : req.body.transaction_from,
         transaction_to : req.body.transaction_to,
-        transaction_amount : Number(req.body.transaction_amount),
+        transaction_amount : req.body.transaction_amount,
         mobile_number : req.body.mobile_number,
         Remarks : req.body.Remarks,
         transaction_date : new Date(),

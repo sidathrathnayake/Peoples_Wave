@@ -43,12 +43,12 @@ class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
     );
     // Navigator.push(
     //   context,
-    //   // MaterialPageRoute(builder: (context) => Dashboard()),
+    //   //MaterialPageRoute(builder: (context) => Dashboard()),
     //   //MaterialPageRoute(builder: (context) => WelcomePage(beneficiary_account_name: beneficiary_account_name.text)),
     // );
   }
 
-  Sb_Beneficiary sb_beneficiary = Sb_Beneficiary("", "", "", "", "");
+  Sb_Beneficiary sb_beneficiary = Sb_Beneficiary("", "", "", "", "", "");
   Color textfieldcolor = Colors.black;
   // #FFC107
 
@@ -116,8 +116,7 @@ class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
                                 },
                                 style: TextStyle(color: Colors.black),
                                 decoration: InputDecoration(
-                                  prefixIcon:
-                                      Image.asset("icons/idtype.png"),
+                                  prefixIcon: Image.asset("icons/idtype.png"),
                                   labelText: "Beneficiary Account Name",
                                   labelStyle: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w500,
@@ -159,7 +158,6 @@ class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
                                 controller: TextEditingController(
                                     text: sb_beneficiary
                                         .beneficiary_account_number),
-                                
                                 onChanged: (value) {
                                   sb_beneficiary.beneficiary_account_number =
                                       value;
@@ -338,12 +336,17 @@ class _AddSameBankBeneficiaryState extends State<AddSameBankBeneficiary> {
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
                                         save();
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Dashboard()),
+                                        );
                                       } else {
                                         print("no");
                                       }
                                     },
                                     child: Text(
-                                      "Add Inventry",
+                                      "Add Beneficiary",
                                       style: GoogleFonts.workSans(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 24,

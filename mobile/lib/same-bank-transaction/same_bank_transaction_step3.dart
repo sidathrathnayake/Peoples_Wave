@@ -1,4 +1,5 @@
 // ignore: unused_import
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -6,51 +7,84 @@ import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile/dashboard.dart';
+import 'package:mobile/same-bank-transaction/otp.dart';
+import 'package:mobile/same-bank-transaction/sb_transaction.dart';
 import 'package:mobile/signin.dart';
 
-class SameBankTransactionOtp extends StatefulWidget {
-  const SameBankTransactionOtp({Key? key, transaction_from}) : super(key: key);
+class SameBankTransactionStep3 extends StatelessWidget {
 
-  @override
-  _SameBankTransactionOtpState createState() => _SameBankTransactionOtpState();
-}
+  void initializer() {
+    sb_transaction.transaction_from =
+        transaction_from3;
+    sb_transaction.transaction_to =
+       transaction_to;
+    sb_transaction.transaction_amount =
+        transaction_amount;
+    sb_transaction.mobile_number =
+       mobile_number;
+    sb_transaction.Remarks =
+       Remarks;
+  }
 
-class _SameBankTransactionOtpState extends State<SameBankTransactionOtp> {
+  String transaction_from3;
+  String transaction_to;
+  String transaction_amount;
+  String mobile_number;
+  String Remarks;
+  SameBankTransactionStep3(
+      {Key? key,
+      required this.transaction_from3,
+      required this.transaction_to,
+      required this.transaction_amount,
+      required this.mobile_number,
+      required this.Remarks})
+      : super(key: key);
+
   final _formKey = GlobalKey<FormState>();
 
-  var userAccType,
-      userAccNumber,
-      userIdType,
-      userIdNumber,
-      userEmail,
-      userPhone,
-      userPassword,
-      userConfirmPassword;
+  Future save() async {
+    await http.post(
+      Uri.parse('http://localhost:5000/one-time-transaction/make-transaction'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'transaction_from': sb_transaction.transaction_from,
+        'transaction_to': sb_transaction.transaction_to,
+        'transaction_amount': sb_transaction.transaction_amount,
+        'mobile_number': sb_transaction.mobile_number,
+        'Remarks': sb_transaction.Remarks,
+      }),
+    );
+    // Navigator.push(
+    //           context,
+    //           MaterialPageRoute(builder: (context) => const Dashboard()),
+    //         );
+  }
 
-  // List<String> AccType = ['YES', 'Jana Jaya', 'Vanitha Vasana'];
-  // String? selectAccType;
-
-  // List<String> IdType = ['National ID Number', 'Passport'];
-  // String? selectIdType;
+// 0000000000000000
 
   Color textfieldcolor = Colors.black;
+
+  Sb_Transaction sb_transaction = Sb_Transaction("", "", "", "", "");
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    initializer();
 
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
         title: Text(
-          "Sign Up",
+          "Make Transaction step - 03",
         ),
       ),
       body: SingleChildScrollView(
         child: Container(
           color: Colors.amber,
-          height: size.height * 1.8,
+          height: size.height * 1.5,
           child: Column(
             children: [
               Container(
@@ -78,16 +112,16 @@ class _SameBankTransactionOtpState extends State<SameBankTransactionOtp> {
                               child: SizedBox(
                                   height: size.height / 3,
                                   width: size.width,
-                                  child: Image.asset(
-                                      "images/sb_transaction.png")),
+                                  child:
+                                      Image.asset("images/sb_transaction.png")),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
-                                controller:
-                                    TextEditingController(text: userAccNumber),
+                                controller: TextEditingController(
+                                    text: transaction_from3),
                                 onChanged: (value) {
-                                  userAccNumber = value;
+                                  sb_transaction.transaction_from = value;
                                 },
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -101,7 +135,7 @@ class _SameBankTransactionOtpState extends State<SameBankTransactionOtp> {
                                 decoration: InputDecoration(
                                   prefixIcon:
                                       Image.asset("icons/accountnumber.png"),
-                                  labelText: "Pay From",
+                                  labelText: "Transaction From",
                                   labelStyle: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18,
@@ -140,9 +174,9 @@ class _SameBankTransactionOtpState extends State<SameBankTransactionOtp> {
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
                                 controller:
-                                    TextEditingController(text: userAccNumber),
+                                    TextEditingController(text: transaction_to),
                                 onChanged: (value) {
-                                  userAccNumber = value;
+                                  sb_transaction.transaction_to = value;
                                 },
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -156,7 +190,7 @@ class _SameBankTransactionOtpState extends State<SameBankTransactionOtp> {
                                 decoration: InputDecoration(
                                   prefixIcon:
                                       Image.asset("icons/accountnumber.png"),
-                                  labelText: "Pay To",
+                                  labelText: "Transaction To",
                                   labelStyle: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18,
@@ -194,22 +228,17 @@ class _SameBankTransactionOtpState extends State<SameBankTransactionOtp> {
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
-                                controller:
-                                    TextEditingController(text: userEmail),
+                                controller: TextEditingController(
+                                    text: transaction_amount),
                                 onChanged: (value) {
-                                  userEmail = value;
+                                  sb_transaction.transaction_amount = value;
                                 },
-                                // validator: (value) {
-                                //   if (value!.isEmpty) {
-                                //     return 'Please enter Email';
-                                //   } else if (RegExp(
-                                //           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                //       .hasMatch(value)) {
-                                //     return null;
-                                //   } else {
-                                //     return 'Please enter valid email!';
-                                //   }
-                                // },
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter the transaction amount';
+                                  }
+                                  return null;
+                                },
                                 style: TextStyle(color: Colors.black),
                                 decoration: InputDecoration(
                                   prefixIcon: Image.asset("icons/email.png"),
@@ -252,13 +281,15 @@ class _SameBankTransactionOtpState extends State<SameBankTransactionOtp> {
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
                                 controller:
-                                    TextEditingController(text: userPhone),
+                                    TextEditingController(text: mobile_number),
                                 onChanged: (value) {
-                                  userPhone = value;
+                                  sb_transaction.mobile_number = value;
                                 },
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return 'Please enter contact number';
+                                    return 'Please enter phone number';
+                                  } else if (value.length != 10) {
+                                    return 'Please enter valid phone number';
                                   }
                                   return null;
                                 },
@@ -304,15 +335,9 @@ class _SameBankTransactionOtpState extends State<SameBankTransactionOtp> {
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
                                 controller:
-                                    TextEditingController(text: userPhone),
+                                    TextEditingController(text: Remarks),
                                 onChanged: (value) {
-                                  userPhone = value;
-                                },
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please enter remarks';
-                                  }
-                                  return null;
+                                  sb_transaction.Remarks = value;
                                 },
                                 style: TextStyle(color: Colors.black),
                                 decoration: InputDecoration(
@@ -365,12 +390,18 @@ class _SameBankTransactionOtpState extends State<SameBankTransactionOtp> {
                                             BorderRadius.circular(30.0)),
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
+                                        save();
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Dashboard()),
+                                        );
                                       } else {
                                         print("no");
                                       }
                                     },
                                     child: Text(
-                                      "Sign Up",
+                                      "Confirm Transaction",
                                       style: GoogleFonts.workSans(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 24,

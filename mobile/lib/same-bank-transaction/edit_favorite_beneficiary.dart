@@ -10,34 +10,42 @@ import 'package:mobile/same-bank-transaction/sb_beneficiary.dart';
 import 'package:mobile/same-bank-transaction/view_all_beneficiary.dart';
 
 class EditFavoriteBeneficiarySB extends StatelessWidget {
-  final _formKey = GlobalKey<FormState>();
-  String beneficiary_account_name;
-  String beneficiary_account_number;
-  String beneficiary_email;
-  String beneficiary_mobile;
+  void initializer() {
+    sb_beneficiary_update.beneficiary_account_name =
+        update_beneficiary.beneficiary_account_name;
+    sb_beneficiary_update.beneficiary_account_number =
+        update_beneficiary.beneficiary_account_number;
+    sb_beneficiary_update.beneficiary_email =
+        update_beneficiary.beneficiary_email;
+    sb_beneficiary_update.beneficiary_mobile =
+        update_beneficiary.beneficiary_mobile;
+  }
 
-  late BuildContext context;
+  final _formKey = GlobalKey<FormState>();
+  // String beneficiary_account_name;
+  // String beneficiary_account_number;
+  // String beneficiary_email;
+  // String beneficiary_mobile;
+  final Sb_Beneficary_Main update_beneficiary;
 
   EditFavoriteBeneficiarySB({
     Key? key,
-    required this.beneficiary_account_name,
-    required this.beneficiary_account_number,
-    required this.beneficiary_email,
-    required this.beneficiary_mobile,
+    // required this.beneficiary_account_name,
+    // required this.beneficiary_account_number,
+    // required this.beneficiary_email,
+    // required this.beneficiary_mobile,
+    required this.update_beneficiary,
   }) : super(key: key);
 
-  get id => "6160899bd94e0e3e48acd220";
-
-  Future save() async {
+  Future edit() async {
     await http.put(
       Uri.parse(
-          'http://localhost:5000/same-bank-beneficiary/update-one-beneficiary/${id}'),
+          'http://localhost:5000/same-bank-beneficiary/update-one-beneficiary/${update_beneficiary.id}'),
       // 'http://localhost:5000/same-bank-beneficiary/update-one-beneficiary/6160899bd94e0e3e48acd220'
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-        '_id': sb_beneficiary_update.id,
         'beneficiary_account_name':
             sb_beneficiary_update.beneficiary_account_name,
         'beneficiary_account_number':
@@ -47,9 +55,6 @@ class EditFavoriteBeneficiarySB extends StatelessWidget {
         'account_mobile': '0776572518',
       }),
     );
-
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => ViewAllBeneficiarySB()));
   }
 
   Sb_Beneficiary_Update sb_beneficiary_update =
@@ -59,7 +64,7 @@ class EditFavoriteBeneficiarySB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-
+    initializer();
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -106,7 +111,8 @@ class EditFavoriteBeneficiarySB extends StatelessWidget {
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
                                 controller: TextEditingController(
-                                    text: beneficiary_account_name),
+                                    text: update_beneficiary
+                                        .beneficiary_account_name),
                                 onChanged: (value) {
                                   sb_beneficiary_update
                                       .beneficiary_account_name = value;
@@ -159,7 +165,8 @@ class EditFavoriteBeneficiarySB extends StatelessWidget {
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
                                 controller: TextEditingController(
-                                    text: beneficiary_account_number),
+                                    text: update_beneficiary
+                                        .beneficiary_account_number),
                                 onChanged: (value) {
                                   sb_beneficiary_update
                                       .beneficiary_account_number = value;
@@ -216,7 +223,7 @@ class EditFavoriteBeneficiarySB extends StatelessWidget {
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
                                 controller: TextEditingController(
-                                    text: beneficiary_email),
+                                    text: update_beneficiary.beneficiary_email),
                                 onChanged: (value) {
                                   sb_beneficiary_update.beneficiary_email =
                                       value;
@@ -274,12 +281,13 @@ class EditFavoriteBeneficiarySB extends StatelessWidget {
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
                                 controller: TextEditingController(
-                                    text: beneficiary_mobile),
+                                    text:
+                                        update_beneficiary.beneficiary_mobile),
                                 onChanged: (value) {
                                   sb_beneficiary_update.beneficiary_mobile =
                                       value;
                                 },
-                                keyboardType: TextInputType.number,
+                                //keyboardType: TextInputType.number,
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return 'Please enter mobile number';
@@ -337,15 +345,40 @@ class EditFavoriteBeneficiarySB extends StatelessWidget {
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(30.0)),
-                                    onPressed: () {
-                                      if (_formKey.currentState!.validate()) {
-                                        save();
-                                      } else {
-                                        print("no");
-                                      }
-                                    },
+                                    onPressed: () => showDialog<String>(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              AlertDialog(
+                                            title: Text('Loading....'),
+                                            content:
+                                                const Text('Confirm Edit '),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    context, 'Cancel'),
+                                                child: const Text('Cancel'),
+                                              ),
+                                              TextButton(
+                                                // onPressed: () =>
+                                                //     //delete();
+                                                //     Navigator.pop(context, 'OK'),
+                                                onPressed: () {
+                                                  edit();
+                                                  //Navigator.pop(context, 'OK');
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            new ViewAllBeneficiarySB()),
+                                                  );
+                                                },
+                                                child: const Text('OK'),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                     child: Text(
-                                      "Edit Inventry",
+                                      "Edit Beneficiary",
                                       style: GoogleFonts.workSans(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 24,

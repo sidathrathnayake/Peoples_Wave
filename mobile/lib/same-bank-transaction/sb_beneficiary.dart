@@ -1,6 +1,7 @@
 // ignore_for_file: unused_field
 
 class Sb_Beneficiary {
+  String id;
   String beneficiary_account_name;
   String beneficiary_account_number;
   String beneficiary_email;
@@ -8,6 +9,7 @@ class Sb_Beneficiary {
   String account_mobile;
 
   Sb_Beneficiary(
+    this.id,
     this.beneficiary_account_name,
     this.beneficiary_account_number,
     this.beneficiary_email,
@@ -17,6 +19,7 @@ class Sb_Beneficiary {
 }
 
 class Sb_Beneficary_Main {
+  final String id;
   final String beneficiary_account_name;
   final String beneficiary_account_number;
   final String beneficiary_email;
@@ -24,6 +27,7 @@ class Sb_Beneficary_Main {
   final String account_mobile;
 
   Sb_Beneficary_Main({
+    required this.id,
     required this.beneficiary_account_name,
     required this.beneficiary_account_number,
     required this.beneficiary_email,
@@ -33,6 +37,7 @@ class Sb_Beneficary_Main {
 
   factory Sb_Beneficary_Main.fromJson(Map<String, dynamic> json) {
     return Sb_Beneficary_Main(
+      id: json['_id'],
       beneficiary_account_name: json['beneficiary_account_name'],
       beneficiary_account_number: json['beneficiary_account_number'],
       beneficiary_email: json['beneficiary_email'],

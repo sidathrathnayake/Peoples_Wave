@@ -12,15 +12,15 @@ const same_bank_beneficiary = new Schema ({
     },
     beneficiary_email : {
         type : String,
-        required : true,
+        required : false,
     },
     beneficiary_mobile : {
         type : String,
-        required : true,
+        required : false,
     },
     account_mobile : {
         type : String,
-        required : true,
+        required : false,
     },
 })
 

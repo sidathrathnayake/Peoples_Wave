@@ -11,6 +11,9 @@ void main() {
 }
 
 class MyApp2 extends StatelessWidget {
+
+  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -41,6 +44,18 @@ class _ViewAllBeneficiarySBState extends State<ViewAllBeneficiarySB> {
     }
   }
 
+  Future delete(String beneficiary_account_name) async {
+    await http.delete(
+      Uri.parse(
+          'http://localhost:5000/same-bank-beneficiary/delete-one-beneficiary-name/${beneficiary_account_name}'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+  
+  }
+
+  Sb_Beneficiary sb_beneficiary = Sb_Beneficiary("","", "", "", "", "");
   Color textfieldcolor = Colors.blue;
   @override
   Widget build(BuildContext context) {
@@ -50,7 +65,7 @@ class _ViewAllBeneficiarySBState extends State<ViewAllBeneficiarySB> {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          "View All Inventries",
+          "View All Beneficiaries",
         ),
       ),
       body: FutureBuilder<List<Sb_Beneficary_Main>>(
@@ -109,18 +124,21 @@ class _ViewAllBeneficiarySBState extends State<ViewAllBeneficiarySB> {
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               EditFavoriteBeneficiarySB(
-                                                beneficiary_account_name: snapshot
-                                                    .data![currentIndex]
-                                                    .beneficiary_account_name,
-                                                beneficiary_account_number: snapshot
-                                                    .data![currentIndex]
-                                                    .beneficiary_account_number,
-                                                beneficiary_email: snapshot
-                                                    .data![currentIndex]
-                                                    .beneficiary_email,
-                                                beneficiary_mobile: snapshot
-                                                    .data![currentIndex]
-                                                    .beneficiary_mobile,
+                                                // beneficiary_account_name: snapshot
+                                                //     .data![currentIndex]
+                                                //     .beneficiary_account_name,
+                                                // beneficiary_account_number: snapshot
+                                                //     .data![currentIndex]
+                                                //     .beneficiary_account_number,
+                                                // beneficiary_email: snapshot
+                                                //     .data![currentIndex]
+                                                //     .beneficiary_email,
+                                                // beneficiary_mobile: snapshot
+                                                //     .data![currentIndex]
+                                                //     .beneficiary_mobile,
+                                                update_beneficiary: snapshot.data![currentIndex]
+                                                  
+
                                               )),
                                     );
                                   },
@@ -145,7 +163,35 @@ class _ViewAllBeneficiarySBState extends State<ViewAllBeneficiarySB> {
                                   shape: RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.circular(30.0)),
-                                  onPressed: () {},
+                                  onPressed: () => showDialog<String>(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            AlertDialog(
+                                          title: Text(
+                                            snapshot.data![currentIndex]
+                                                .beneficiary_account_name,
+                                          ),
+                                          content: const Text(
+                                              'Do you want to delete this beneficiary ? '),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              onPressed: () => Navigator.pop(
+                                                  context, 'Cancel'),
+                                              child: const Text('Cancel'),
+                                            ),
+                                            TextButton(
+                                              // onPressed: () =>
+                                              //     //delete();
+                                              //     Navigator.pop(context, 'OK'),
+                                              onPressed: () {
+                                                delete(snapshot.data![currentIndex].beneficiary_account_name);
+                                                Navigator.pop(context, 'OK');
+                                              },
+                                              child: const Text('OK'),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                   child: Text(
                                     "Delete",
                                     style: GoogleFonts.workSans(
