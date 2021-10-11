@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile/same-bank-transaction/sb_beneficiary.dart';
+import 'package:mobile/same-bank-transaction/sb_beneficiary_dashboard.dart';
 import 'package:mobile/same-bank-transaction/view_all_beneficiary.dart';
 
 class EditFavoriteBeneficiarySB extends StatelessWidget {
@@ -369,7 +370,7 @@ class EditFavoriteBeneficiarySB extends StatelessWidget {
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            new ViewAllBeneficiarySB()),
+                                                            new SB_Dashboard()),
                                                   );
                                                 },
                                                 child: const Text('OK'),
